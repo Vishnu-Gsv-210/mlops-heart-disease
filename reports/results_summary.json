@@ -1,0 +1,222 @@
+{
+  "student": {
+    "name": "Vishnu Gopisetti",
+    "id": "2025AE05666",
+    "course": "AIMLCZG523",
+    "assignment": "MLOps Assignment 01",
+    "assignment_points": 50,
+    "report_date": "2026-10-20"
+  },
+  "dataset": {
+    "name": "UCI Heart Disease (Cleveland subset, processed)",
+    "doi": "10.24432/C52P4X",
+    "url": "https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/processed.cleveland.data",
+    "rows": 303,
+    "features": 13,
+    "class_balance": {
+      "positive": 139,
+      "negative": 164
+    },
+    "missing_values_by_column": {
+      "age": 0,
+      "sex": 0,
+      "cp": 0,
+      "trestbps": 0,
+      "chol": 0,
+      "fbs": 0,
+      "restecg": 0,
+      "thalach": 0,
+      "exang": 0,
+      "oldpeak": 0,
+      "slope": 0,
+      "ca": 4,
+      "thal": 2,
+      "target": 0
+    },
+    "duplicate_rows_after_cleaning": 0,
+    "target_definition": "num == 0 -> 0; num in {1,2,3,4} -> 1",
+    "train_test_split": {
+      "test_size_fraction": 0.2,
+      "test_rows": 61,
+      "stratified": true,
+      "random_state": 42
+    }
+  },
+  "model_comparison": {
+    "logistic_regression": {
+      "best_params": {
+        "model__C": 0.1
+      },
+      "accuracy": 0.8852459016393442,
+      "precision": 0.8387096774193549,
+      "recall": 0.9285714285714286,
+      "f1": 0.8813559322033898,
+      "roc_auc": 0.9653679653679654,
+      "cv_roc_auc_mean": 0.9024779568257829,
+      "cv_roc_auc_std": 0.014803685378876278
+    },
+    "random_forest": {
+      "best_params": {
+        "model__max_depth": 5,
+        "model__min_samples_leaf": 3,
+        "model__n_estimators": 150
+      },
+      "accuracy": 0.8688524590163934,
+      "precision": 0.8125,
+      "recall": 0.9285714285714286,
+      "f1": 0.8666666666666667,
+      "roc_auc": 0.9534632034632035,
+      "cv_roc_auc_mean": 0.8878171345562651,
+      "cv_roc_auc_std": 0.03203914942730474
+    }
+  },
+  "selected_model": {
+    "name": "logistic_regression",
+    "selection_criterion": "highest held-out ROC-AUC (0.9654 vs 0.9535); also higher CV ROC-AUC mean (0.9025 vs 0.8878) with lower CV std (0.0148 vs 0.0320)",
+    "path": "models/heart_disease_pipeline.joblib",
+    "bytes": 4858,
+    "best_params": {
+      "model__C": 0.1
+    }
+  },
+  "api_evidence": {
+    "executed": "2026-10-20",
+    "transport": "Docker container verified via host LAN IP http://192.168.0.9:8000 (local port 8000 occupied by an unrelated service; see run_logs/port8000_conflict.log)",
+    "health_response": {
+      "status": "ok",
+      "model_available": true
+    },
+    "predict_request": {
+      "age": 55,
+      "sex": 1,
+      "cp": 2,
+      "trestbps": 130,
+      "chol": 240,
+      "fbs": 0,
+      "restecg": 1,
+      "thalach": 150,
+      "exang": 0,
+      "oldpeak": 1.2,
+      "slope": 2,
+      "ca": 0,
+      "thal": 3
+    },
+    "predict_response": {
+      "prediction": 0,
+      "label": "heart_disease_not_indicated",
+      "confidence": 0.672567,
+      "probability_heart_disease": 0.327433,
+      "disclaimer": "Educational output only; not a medical diagnosis."
+    }
+  },
+  "testing": {
+    "pytest": {
+      "result": "3 passed, 1 warning in 1.28s",
+      "note": "Suite expansion to broader coverage in progress at draft time",
+      "tests": [
+        "tests/test_api.py::test_health_endpoint_shape",
+        "tests/test_api.py::test_root_has_docs_link",
+        "tests/test_data_processing.py::test_preprocessor_handles_missing_values_and_unknown_categories"
+      ]
+    },
+    "ruff": "All checks passed!"
+  },
+  "environment": {
+    "python": "3.11.16",
+    "platform": "macOS (darwin), colima Docker runtime",
+    "packages": {
+      "scikit-learn": "1.9.1",
+      "mlflow": "3.17.1",
+      "fastapi": "0.153.0",
+      "pandas": "2.3.3",
+      "numpy": "2.4.6",
+      "matplotlib": "3.11.2",
+      "seaborn": "0.13.2",
+      "joblib": "1.6.0",
+      "uvicorn": "0.54.0",
+      "pydantic": "2.14.1",
+      "prometheus_client": "0.26.0",
+      "pytest": "8.4.2",
+      "ruff": "0.17.1",
+      "httpx": "0.28.1"
+    }
+  },
+  "evidence_inventory": [
+    {
+      "path": "screenshots/01_eda.png",
+      "bytes": 743792,
+      "sha256": "6c9744238e2f3f0176193eec82ee9f9ffcce68d94d8f5ec24a00f3778eda644c",
+      "shows": "EDA execution output: dataset summary JSON (303 rows, 139/164 class split, ca=4 / thal=2 missing, 0 duplicates)"
+    },
+    {
+      "path": "screenshots/02_mlflow.png",
+      "bytes": 202963,
+      "sha256": "f59e7367171fbbd2d69bfd10585e277f40c0eec92c7396f88bb3209ef330c70e",
+      "shows": "MLflow UI experiment view with both model runs (logistic_regression, random_forest) and their logged metrics"
+    },
+    {
+      "path": "screenshots/03_tests.png",
+      "bytes": 53372,
+      "sha256": "7dfaadd41c3fe1b69c509b18b62325ca3c453ffc2aabcaee0589681efe5a86af",
+      "shows": "pytest run: 3 passed"
+    },
+    {
+      "path": "screenshots/04_lint.png",
+      "bytes": 7250,
+      "sha256": "0b825b5957d282684308ee469d6a86cb1b02fa764b7a3872d9253c05645e1240",
+      "shows": "ruff check output: all checks passed"
+    },
+    {
+      "path": "screenshots/06_api_health.png",
+      "bytes": 11233,
+      "sha256": "f1fac73e499312b76e44771d3fe2337c79ffd4dbe2d86fb132937f0b32e5ac0f",
+      "shows": "Dockerized API GET /health response: {\"status\":\"ok\",\"model_available\":true}"
+    },
+    {
+      "path": "screenshots/07_api_predict.png",
+      "bytes": 241931,
+      "sha256": "b456d0870400f2022cd133bbf3707d31fec8ea20eccb21b8f5c219c4b4100953",
+      "shows": "Dockerized API POST /predict request and JSON response with disclaimer"
+    },
+    {
+      "path": "screenshots/09_prometheus_metrics.png",
+      "bytes": 276364,
+      "sha256": "127eecbe343600bef63874298deac2bccfab663a2340af4331cf1b77d5d99f56",
+      "shows": "GET /metrics exposition: prediction_requests_total counter and prediction_request_duration_seconds histogram"
+    }
+  ],
+  "evidence_inventory_note": "Numbering gaps 05 (GitHub Actions cloud run) and 08 (Kubernetes rollout) are intentional: those captures are pending and are listed in status_markers; SUBMISSION_STATUS.md forbids fabricated screenshots.",
+  "artifact_paths": {
+    "architecture_diagram": "reports/architecture/architecture.png",
+    "architecture_generator": "reports/architecture/generate_architecture.py",
+    "eda_summary": "reports/artifacts/eda_summary.json",
+    "training_summary": "reports/artifacts/training_summary.json",
+    "model_comparison": "reports/artifacts/comparison.json",
+    "model_card": "reports/artifacts/model_card.json",
+    "lr_classification_report": "reports/artifacts/logistic_regression_classification_report.json",
+    "rf_classification_report": "reports/artifacts/random_forest_classification_report.json",
+    "figures": [
+      "reports/figures/class_balance.png",
+      "reports/figures/correlation_heatmap.png",
+      "reports/figures/feature_distributions.png",
+      "reports/figures/confusion_matrix.png",
+      "reports/figures/roc_curve.png"
+    ],
+    "serialized_model": "models/heart_disease_pipeline.joblib",
+    "mlflow_backend": "mlflow.db (sqlite) with mlruns/ file store",
+    "run_logs": "run_logs/*.log (pytest, ruff, train, eda, docker build/run/container, api health/predict/metrics, port8000 conflict)",
+    "cleaned_data": "data/processed/heart_disease_cleaned.csv",
+    "raw_data": "data/raw/processed.cleveland.data",
+    "ci_workflow": ".github/workflows/ci-cd.yaml",
+    "k8s_manifests": "deployment/deployment.yaml",
+    "prometheus_config": "monitoring/prometheus.yml"
+  },
+  "status_markers": {
+    "github_actions_cloud_run": "PENDING - workflow configured (.github/workflows/ci-cd.yaml) but no cloud run executed yet; see SUBMISSION_STATUS.md",
+    "kubernetes_rollout": "IN PROGRESS at draft time (2026-10-20) - Deployment/Service manifests written (deployment/deployment.yaml, 2 replicas, LoadBalancer), minikube rollout evidence not yet captured",
+    "repository_url": "To be filled after GitHub push",
+    "test_suite_expansion": "IN PROGRESS - 3 tests passing at draft time, larger suite planned"
+  },
+  "generated_at": "2026-10-20T14:37:24Z",
+  "generator": "reports/final_report.md companion machine-readable summary; every metric traceable to reports/artifacts/*.json"
+}

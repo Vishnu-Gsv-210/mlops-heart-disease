@@ -1,0 +1,88 @@
+Downloaded fresh copy to /Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/data/raw/processed.cleveland.data
+Dataset contract passed: 303 rows, 13 features.
+{
+  "rows": 303,
+  "features": 13,
+  "positive_class_count": 139,
+  "negative_class_count": 164,
+  "missing_values_by_column": {
+    "age": 0,
+    "sex": 0,
+    "cp": 0,
+    "trestbps": 0,
+    "chol": 0,
+    "fbs": 0,
+    "restecg": 0,
+    "thalach": 0,
+    "exang": 0,
+    "oldpeak": 0,
+    "slope": 0,
+    "ca": 4,
+    "thal": 2,
+    "target": 0
+  },
+  "duplicate_rows_after_cleaning": 0,
+  "target_definition": "num == 0 -> 0; num in {1,2,3,4} -> 1"
+}
+EDA complete: 303 rows, 139 positive cases.
+2026/10/20 20:44:06 WARNING mlflow.models.model: `artifact_path` is deprecated. Please use `name` instead.
+logistic_regression: {
+  "best_params": {
+    "model__C": 0.1
+  },
+  "accuracy": 0.8852459016393442,
+  "precision": 0.8387096774193549,
+  "recall": 0.9285714285714286,
+  "f1": 0.8813559322033898,
+  "roc_auc": 0.9653679653679654,
+  "cv_roc_auc_mean": 0.9024779568257829,
+  "cv_roc_auc_std": 0.014803685378876278
+}
+2026/10/20 20:44:10 WARNING mlflow.models.model: `artifact_path` is deprecated. Please use `name` instead.
+random_forest: {
+  "best_params": {
+    "model__max_depth": 5,
+    "model__min_samples_leaf": 3,
+    "model__n_estimators": 150
+  },
+  "accuracy": 0.8688524590163934,
+  "precision": 0.8125,
+  "recall": 0.9285714285714286,
+  "f1": 0.8666666666666667,
+  "roc_auc": 0.9534632034632035,
+  "cv_roc_auc_mean": 0.8878171345562651,
+  "cv_roc_auc_std": 0.03203914942730474
+}
+{
+  "selected_model": "logistic_regression",
+  "models": {
+    "logistic_regression": {
+      "best_params": {
+        "model__C": 0.1
+      },
+      "accuracy": 0.8852459016393442,
+      "precision": 0.8387096774193549,
+      "recall": 0.9285714285714286,
+      "f1": 0.8813559322033898,
+      "roc_auc": 0.9653679653679654,
+      "cv_roc_auc_mean": 0.9024779568257829,
+      "cv_roc_auc_std": 0.014803685378876278
+    },
+    "random_forest": {
+      "best_params": {
+        "model__max_depth": 5,
+        "model__min_samples_leaf": 3,
+        "model__n_estimators": 150
+      },
+      "accuracy": 0.8688524590163934,
+      "precision": 0.8125,
+      "recall": 0.9285714285714286,
+      "f1": 0.8666666666666667,
+      "roc_auc": 0.9534632034632035,
+      "cv_roc_auc_mean": 0.8878171345562651,
+      "cv_roc_auc_std": 0.03203914942730474
+    }
+  },
+  "test_size": 61
+}
+Pipeline complete. Selected model: logistic_regression

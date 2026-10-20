@@ -1,0 +1,24 @@
+=== curl 'http://localhost:9090/api/v1/query?query=prediction_requests_total' ===
+{
+    "status": "success",
+    "data": {
+        "resultType": "vector",
+        "result": [
+            {
+                "metric": {
+                    "__name__": "prediction_requests_total",
+                    "instance": "host.docker.internal:8000",
+                    "job": "heart-disease-api",
+                    "status": "success"
+                },
+                "value": [
+                    1792509525.585,
+                    "1"
+                ]
+            }
+        ]
+    }
+}
+
+=== post-traffic query (after 5 more /predict + 2 /health) ===
+{'__name__': 'prediction_requests_total', 'instance': 'host.docker.internal:8000', 'job': 'heart-disease-api', 'status': 'success'} => 6

@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-10-20T20:24:44",
+  "checks": {
+    "dataset_summary": true,
+    "training_summary": true,
+    "comparison_metrics": true,
+    "serialized_model": true,
+    "test_evidence_screenshot": true,
+    "docker_evidence_screenshot": false,
+    "kubernetes_evidence_screenshot": false,
+    "github_actions_evidence_screenshot": false
+  },
+  "missing_screenshots": [
+    "05_docker_build.png",
+    "08_kubernetes.png",
+    "10_grafana.png",
+    "11_github_actions.png"
+  ],
+  "warning": "A file's existence does not independently prove its content or authenticity. Verify all artifacts before submission."
+}

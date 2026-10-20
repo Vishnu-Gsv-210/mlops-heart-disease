@@ -1,0 +1,53 @@
+#0 building with "colima" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 553B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.11-slim
+#2 DONE 1.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 115B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 11.11kB done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/python:3.11-slim@sha256:e88e9763f943ec1834f992a4b51e0f24500486803e8bc534e5767af9ea65f6ce
+#5 resolve docker.io/library/python:3.11-slim@sha256:e88e9763f943ec1834f992a4b51e0f24500486803e8bc534e5767af9ea65f6ce 0.0s done
+#5 DONE 0.0s
+
+#6 [5/7] COPY src ./src
+#6 CACHED
+
+#7 [6/7] COPY models ./models
+#7 CACHED
+
+#8 [2/7] WORKDIR /app
+#8 CACHED
+
+#9 [3/7] COPY requirements.txt .
+#9 CACHED
+
+#10 [4/7] RUN pip install --no-cache-dir -r requirements.txt
+#10 CACHED
+
+#11 [7/7] COPY reports/artifacts ./reports/artifacts
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 exporting manifest sha256:58a238faf6b22f62c77f1307ee9f0432f46e3a6093156f999f223204be43e91f done
+#12 exporting config sha256:fd45875baf3bf7b16bd43dd3a0be4110959a551a72064bf4350731fe28c392d2 done
+#12 exporting attestation manifest sha256:09040fb10ceed52f62f1359e24ce30c8f8471e600f67380680fd9fe31a9a38a9 done
+#12 exporting manifest list sha256:bf5da7e585e204a36530560ebe6b5dcb506083c3c1001a12ac0c63d7b2b34945 done
+#12 naming to docker.io/library/heart-disease-api:latest done
+#12 unpacking to docker.io/library/heart-disease-api:latest done
+#12 DONE 0.1s
+
+$ docker images heart-disease-api
+IMAGE                      ID             DISK USAGE   CONTENT SIZE   EXTRA
+heart-disease-api:k8s      5dd8e92b7c9c       1.42GB          310MB   U    
+heart-disease-api:latest   bf5da7e585e2       1.42GB          310MB   U    

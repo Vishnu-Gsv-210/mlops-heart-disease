@@ -1,0 +1,4 @@
+0986b50aa6036d40b100dee69a7076effccf16b9815c59141be1019e607894a7
+=== docker ps --filter name=heart-api ===
+CONTAINER ID   IMAGE                      COMMAND                  CREATED         STATUS                                     PORTS                                         NAMES
+0986b50aa603   heart-disease-api:latest   "uvicorn src.api:app…"   2 seconds ago   Up Less than a second (health: starting)   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp   heart-api

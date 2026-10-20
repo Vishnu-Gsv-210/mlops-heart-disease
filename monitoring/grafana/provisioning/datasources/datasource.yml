@@ -1,0 +1,18 @@
+# Grafana datasource provisioning.
+# Mounted into the grafana/grafana:11.1.0 container at
+# /etc/grafana/provisioning/datasources/datasource.yml by docker-compose.yml.
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    uid: prometheus
+    type: prometheus
+    access: proxy
+    # From inside the Grafana container, the Prometheus service is reachable by
+    # its docker-compose service name on the default port 9090.
+    url: http://prometheus:9090
+    isDefault: true
+    editable: true
+    jsonData:
+      timeInterval: 15s
+      httpMethod: POST

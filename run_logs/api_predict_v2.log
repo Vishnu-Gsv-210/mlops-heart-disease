@@ -1,0 +1,2 @@
+$ curl -X POST http://192.168.0.9:8000/predict -H "Content-Type: application/json" -d "{\"age\": 55, \"sex\": 1, \"cp\": 2, \"trestbps\": 130, \"chol\": 240, \"fbs\": 0, \"restecg\": 1, \"thalach\": 150, \"exang\": 0, \"oldpeak\": 1.2, \"slope\": 2, \"ca\": 0, \"thal\": 3}"
+{"prediction":0,"label":"heart_disease_not_indicated","confidence":0.672567,"probability_heart_disease":0.327433,"disclaimer":"Educational output only; not a medical diagnosis."}

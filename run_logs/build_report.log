@@ -1,0 +1,28 @@
+Generated /Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/report_generated.pdf
+{
+  "generated_at": "2026-10-20T19:37:27",
+  "checks": {
+    "dataset_summary": true,
+    "training_summary": true,
+    "comparison_metrics": true,
+    "serialized_model": true,
+    "test_evidence_screenshot": false,
+    "docker_evidence_screenshot": false,
+    "kubernetes_evidence_screenshot": false,
+    "github_actions_evidence_screenshot": false
+  },
+  "missing_screenshots": [
+    "01_eda.png",
+    "02_mlflow.png",
+    "03_tests.png",
+    "04_lint.png",
+    "05_docker_build.png",
+    "06_api_health.png",
+    "07_api_predict.png",
+    "08_kubernetes.png",
+    "09_prometheus_metrics.png",
+    "10_grafana.png",
+    "11_github_actions.png"
+  ],
+  "warning": "A file's existence does not independently prove its content or authenticity. Verify all artifacts before submission."
+}

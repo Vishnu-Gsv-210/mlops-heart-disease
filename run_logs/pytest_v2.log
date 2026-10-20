@@ -1,0 +1,25 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.11.16, pytest-8.4.2, pluggy-1.7.0
+rootdir: /Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.15.1, platformdirs-4.13.5
+collected 40 items
+
+tests/test_api.py ..........                                             [ 25%]
+tests/test_data.py ..........                                            [ 50%]
+tests/test_model.py ..........                                           [ 75%]
+tests/test_monitoring.py .....                                           [ 87%]
+tests/test_preprocessing.py .....                                        [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.11/site-packages/fastapi/testclient.py:1
+  /Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/test_data.py::test_generate_eda_writes_figures_and_summary
+  /Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/seaborn/matrix.py:243: PendingDeprecationWarning: The set_bad function will be deprecated in a future version. Use cmap.with_extremes(bad=...) or Colormap(bad=...) instead.
+    self.cmap.set_bad(bad)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 40 passed, 2 warnings in 2.01s ========================

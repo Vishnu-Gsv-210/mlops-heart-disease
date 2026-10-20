@@ -1,0 +1,35 @@
+PORT 8000 LOOPBACK SHADOWING NOTE (macOS host)
+================================================
+Generated: 2026-10-20 14:19 (local)
+
+The heart-disease-api container (heart-api) is RUNNING and healthy, publishing
+0.0.0.0:8000->8000 via colima. However, on the macOS host, `localhost:8000` /
+`127.0.0.1:8000` is shadowed by an unrelated, pre-existing user service:
+
+    PID 1417  (parent launchd, started Sat Oct 17 14:57:03 2026)
+    /Users/krishnateja/.prime/agent/.venv/bin/cognee-mcp --transport http
+        --host 127.0.0.1 --port 8000
+
+This service answers 127.0.0.1:8000/health with {"status":"ok"} and returns
+plain-text "Not Found" for /predict and /metrics. Any client using
+http://localhost:8000 on this Mac reaches cognee-mcp, NOT the assignment API.
+This process was NOT killed: it belongs to the user's agent tooling and is
+outside this assignment's scope.
+
+colima's own SSH port-forward mux (PID 93137,
+/Users/krishnateja/.colima/_lima/colima/ssh.sock [mux]) listens on *:8000, so
+the container IS reachable from the host on any non-loopback interface IP:
+
+    http://192.168.0.9:8000   (en0 LAN IP used for all verification curls)
+
+Verification via 192.168.0.9:8000 returns the real API:
+    /health   -> {"status":"ok","model_available":true}
+    POST /predict -> {"prediction":0,"label":"heart_disease_not_indicated",...}
+    /metrics  -> prediction_requests_total{status="success"} 1.0 (etc.)
+
+Container logs (run_logs/docker_container.log) confirm these requests reached
+the container (client 172.17.0.1 = colima NAT gateway).
+
+RECOMMENDATION for the screenshot/polling agent: use http://192.168.0.9:8000
+(or any non-loopback local interface IP) instead of http://localhost:8000, or
+have the captain decide to stop the cognee-mcp service (PID 1417) first.

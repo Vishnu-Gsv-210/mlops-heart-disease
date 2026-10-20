@@ -1,0 +1,15 @@
+Prometheus standalone run notes (no docker-compose; standalone containers):
+- Project config used verbatim (monitoring/prometheus.yml + alert_rules.yml), mounted read-only.
+- Networking: both prom-assign and grafana-attach run on a shared user docker network "mlops-mon"
+  (docker network create mlops-mon) instead of the compose default network.
+- Runtime flag addition: --network-alias prometheus was added to the prom-assign container so the
+  Grafana datasource URL http://prometheus:9090 (provisioned in
+  monitoring/grafana/provisioning/datasources/datasource.yml) resolves via container network-alias
+  DNS. The physical container name is prom-assign (per assignment), so without this alias the
+  datasource hostname "prometheus" would not resolve on the shared network.
+- --add-host=host.docker.internal:host-gateway kept on prom-assign (maps to the docker bridge
+  gateway inside the colima VM). If the heart-disease-api target is DOWN because that gateway is
+  the colima VM rather than the macOS host, the documented fallback is a --network host variant
+  with a temp config copy replacing host.docker.internal with localhost (see targets log outcome).
+- Anonymous-admin on Grafana is a local-demo-only setting (GF_AUTH_ANONYMOUS_ENABLED=true,
+  GF_AUTH_ANONYMOUS_ORG_ROLE=Admin, GF_AUTH_DISABLE_LOGIN_FORM=true); never for production.

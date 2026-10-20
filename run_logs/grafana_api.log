@@ -1,0 +1,29 @@
+=== curl http://localhost:3000/api/health ===
+{
+  "commit": "5b85c4c2fcf5d32d4f68aaef345c53096359b2f1",
+  "database": "ok",
+  "version": "11.1.0"
+}
+
+=== curl 'http://localhost:3000/api/search?query=Heart' ===
+[
+    {
+        "id": 1,
+        "uid": "heart-disease-api",
+        "title": "Heart Disease API",
+        "uri": "db/heart-disease-api",
+        "url": "/d/heart-disease-api/heart-disease-api",
+        "slug": "",
+        "type": "dash-db",
+        "tags": [
+            "fastapi",
+            "heart-disease",
+            "mlops"
+        ],
+        "isStarred": false,
+        "sortMeta": 0
+    }
+]
+
+=== datasource health proxy check ===
+{"details":{"application":"Prometheus","features":{"rulerApiEnabled":false}},"message":"Successfully queried the Prometheus API.","status":"OK"}

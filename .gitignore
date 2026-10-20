@@ -1,0 +1,22 @@
+# Environments & caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Generated ML tracking stores (recreate with `make train`; UI: mlflow ui --backend-store-uri sqlite:///mlflow.db)
+mlruns/
+mlflow.db
+
+# Raw source data (re-download with `python scripts/download_data.py`); the cleaned dataset IS committed
+data/raw/*
+!data/raw/.gitkeep
+
+# Secrets
+.env
+
+# Large media deliverables (shipped in the submission ZIP, not the repo)
+demo/*.mp4
+demo/*.mov

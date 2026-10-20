@@ -1,0 +1,8 @@
+
+=== DIAGNOSTIC CHANGE ===
+First attempt: host.docker.internal -> host-gateway resolved to the macOS host inside colima, where port 8000 is the unrelated squatter service -> target DOWN, 'server returned HTTP status 404 Not Found' on /metrics.
+Fix: re-ran prom-assign with runtime flag override --add-host=host.docker.internal:192.168.0.9 (the Mac LAN IP where the heart-disease-api container is published). Project prometheus.yml itself unchanged/verbatim.
+
+=== curl http://localhost:9090/api/v1/targets (after fix) ===
+heart-disease-api up ''
+prometheus up ''

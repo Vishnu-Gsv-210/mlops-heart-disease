@@ -1,0 +1,5 @@
+IMAGE                      ID             DISK USAGE   CONTENT SIZE   EXTRA
+heart-disease-api:k8s      5dd8e92b7c9c       1.42GB          310MB        
+heart-disease-api:latest   bb95932299be       1.42GB          310MB   U    
+USING: existing latest + new k8s tag
+LOAD_EXIT: 0

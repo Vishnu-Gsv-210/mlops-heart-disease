@@ -1,0 +1,27 @@
+# Prometheus configuration for the Heart Disease MLOps stack.
+# Mounted into the prom/prometheus:v2.53.0 container by docker-compose.yml
+# at /etc/prometheus/prometheus.yml.
+global:
+  scrape_interval: 15s        # default interval for all scrape jobs
+  evaluation_interval: 15s    # how often alerting/recording rules are evaluated
+  scrape_timeout: 10s
+
+# Alerting rules live alongside this file and are mounted into the container.
+rule_files:
+  - /etc/prometheus/alert_rules.yml
+
+scrape_configs:
+  # Prometheus scrapes itself so the "up" metric and self-monitoring work out of the box.
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # The FastAPI prediction service exposes Prometheus metrics at /metrics.
+  # host.docker.internal resolves to the host machine from inside Docker, so this
+  # works both when the API runs locally (uvicorn) and when the compose stack runs
+  # while the API runs in a separate container on the host's port 8000.
+  - job_name: "heart-disease-api"
+    metrics_path: /metrics
+    scrape_interval: 15s
+    static_configs:
+      - targets: ["host.docker.internal:8000"]

@@ -1,0 +1,6 @@
+Validating Kubernetes manifests from deployment/kubernetes/
+  checked: deployment/kubernetes/configmap.yaml
+  checked: deployment/kubernetes/deployment.yaml
+  checked: deployment/kubernetes/namespace.yaml
+  checked: deployment/kubernetes/service.yaml
+OK: 4 manifest file(s) parsed; all required fields present.

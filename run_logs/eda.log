@@ -1,0 +1,24 @@
+{
+  "rows": 303,
+  "features": 13,
+  "positive_class_count": 139,
+  "negative_class_count": 164,
+  "missing_values_by_column": {
+    "age": 0,
+    "sex": 0,
+    "cp": 0,
+    "trestbps": 0,
+    "chol": 0,
+    "fbs": 0,
+    "restecg": 0,
+    "thalach": 0,
+    "exang": 0,
+    "oldpeak": 0,
+    "slope": 0,
+    "ca": 4,
+    "thal": 2,
+    "target": 0
+  },
+  "duplicate_rows_after_cleaning": 0,
+  "target_definition": "num == 0 -> 0; num in {1,2,3,4} -> 1"
+}

@@ -1,0 +1,10 @@
+namespace/heart-disease created
+service/heart-disease-api created
+Error from server (NotFound): error when creating "deployment/kubernetes/configmap.yaml": namespaces "heart-disease" not found
+Error from server (NotFound): error when creating "deployment/kubernetes/deployment.yaml": namespaces "heart-disease" not found
+APPLY_EXIT: 1
+configmap/heart-disease-api-config created
+deployment.apps/heart-disease-api created
+namespace/heart-disease unchanged
+service/heart-disease-api unchanged
+APPLY_EXIT_RETRY: 0

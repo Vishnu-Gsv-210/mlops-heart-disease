@@ -1,0 +1,37 @@
+{
+  "model_name": "logistic_regression",
+  "model_path": "models/heart_disease_pipeline.joblib",
+  "feature_order": [
+    "age",
+    "sex",
+    "cp",
+    "trestbps",
+    "chol",
+    "fbs",
+    "restecg",
+    "thalach",
+    "exang",
+    "oldpeak",
+    "slope",
+    "ca",
+    "thal"
+  ],
+  "target": "binary heart disease indicator (UCI num > 0)",
+  "metrics": {
+    "accuracy": 0.8852459016393442,
+    "precision": 0.8387096774193549,
+    "recall": 0.9285714285714286,
+    "f1": 0.8813559322033898,
+    "roc_auc": 0.9653679653679654,
+    "cv_roc_auc_mean": 0.9024779568257829,
+    "cv_roc_auc_std": 0.014803685378876278
+  },
+  "best_params": {
+    "model__C": 0.1
+  },
+  "limitations": [
+    "Small historical Cleveland subset; not representative of all populations.",
+    "Educational demonstration only; not for diagnosis or clinical decisions.",
+    "Metrics are internal evaluation results, not evidence of clinical utility."
+  ]
+}

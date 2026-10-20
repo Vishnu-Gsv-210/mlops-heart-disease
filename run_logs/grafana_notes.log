@@ -1,0 +1,8 @@
+Grafana standalone run notes:
+- Anonymous Admin is a LOCAL-DEMO setting only (GF_AUTH_ANONYMOUS_ENABLED=true,
+  GF_AUTH_ANONYMOUS_ORG_ROLE=Admin, GF_AUTH_DISABLE_LOGIN_FORM=true); never use in production.
+- Networking: attached to shared user network mlops-mon so the provisioned datasource URL
+  http://prometheus:9090 resolves via prom-assign's --network-alias prometheus
+  (container name DNS would otherwise only resolve "grafana-assign"/"prom-assign").
+- Provisioning mounted read-only from monitoring/grafana/provisioning (datasource) and
+  monitoring/grafana/dashboards (dashboard JSON: uid heart-disease-api, "Heart Disease API").

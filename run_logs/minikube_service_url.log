@@ -1,0 +1,7 @@
+http://127.0.0.1:57077
+! Because you are using a Docker driver on darwin, the terminal needs to be open to run it.
+
+=== NodePort direct test (host -> minikube ip) ===
+minikube ip: 192.168.49.2 ; nodePort: 30769
+curl http://192.168.49.2:30769/health -> http_code=000 curl_exit=28
+

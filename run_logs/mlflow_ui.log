@@ -1,0 +1,203 @@
+Registry store URI not provided. Using backend store URI.
+[MLflow] Security middleware enabled with default settings (localhost-only). To allow connections from other hosts, use --host 0.0.0.0 and configure --allowed-hosts and --cors-allowed-origins.
+2026/10/20 19:49:15 WARNING mlflow.server: MLflow job execution requirements not met (MLflow job backend requires a database backend store URI but got ./mlruns). Server will start without job execution support. Errors will be surfaced at job invocation time.
+2026/10/20 19:49:15 INFO:     Uvicorn running on http://127.0.0.1:5001 (Press CTRL+C to quit)
+2026/10/20 19:49:15 INFO:     Started parent process [89471]
+/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/server/fastapi_app.py:23: StarletteDeprecationWarning: starlette.middleware.wsgi is deprecated and will be removed in a future release. Please refer to https://github.com/abersheeran/a2wsgi as a replacement.
+  from starlette.middleware.wsgi import WSGIResponder, build_environ
+/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/server/fastapi_app.py:23: StarletteDeprecationWarning: starlette.middleware.wsgi is deprecated and will be removed in a future release. Please refer to https://github.com/abersheeran/a2wsgi as a replacement.
+  from starlette.middleware.wsgi import WSGIResponder, build_environ
+/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/server/fastapi_app.py:23: StarletteDeprecationWarning: starlette.middleware.wsgi is deprecated and will be removed in a future release. Please refer to https://github.com/abersheeran/a2wsgi as a replacement.
+  from starlette.middleware.wsgi import WSGIResponder, build_environ
+/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/server/fastapi_app.py:23: StarletteDeprecationWarning: starlette.middleware.wsgi is deprecated and will be removed in a future release. Please refer to https://github.com/abersheeran/a2wsgi as a replacement.
+  from starlette.middleware.wsgi import WSGIResponder, build_environ
+2026/10/20 19:49:17 INFO:     Started server process [89474]
+2026/10/20 19:49:17 INFO:     Started server process [89473]
+2026/10/20 19:49:17 INFO:     Started server process [89475]
+2026/10/20 19:49:17 INFO:     Started server process [89476]
+2026/10/20 19:49:17 INFO:     Waiting for application startup.
+2026/10/20 19:49:17 INFO:     Waiting for application startup.
+2026/10/20 19:49:17 INFO:     Waiting for application startup.
+2026/10/20 19:49:17 INFO:     Waiting for application startup.
+2026/10/20 19:49:17 INFO:     Application startup complete.
+2026/10/20 19:49:17 INFO:     Application startup complete.
+2026/10/20 19:49:17 INFO:     Application startup complete.
+2026/10/20 19:49:17 INFO:     Application startup complete.
+2026/10/20 19:49:19 INFO:     127.0.0.1:52136 - "GET / HTTP/1.1" 200 OK
+WARNING:root:Malformed experiment '1'. Detailed error Yaml file './mlruns/1/meta.yaml' does not exist.
+Traceback (most recent call last):
+  File "/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/store/tracking/file_store.py", line 386, in search_experiments
+    exp = self._get_experiment(exp_id, view_type)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/store/tracking/file_store.py", line 487, in _get_experiment
+    meta = FileStore._read_yaml(experiment_dir, FileStore.META_DATA_FILE_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/store/tracking/file_store.py", line 1676, in _read_yaml
+    return _read_helper(root, file_name, attempts_remaining=retries)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/store/tracking/file_store.py", line 1669, in _read_helper
+    result = read_yaml(root, file_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/utils/yaml_utils.py", line 104, in read_yaml
+    raise MissingConfigException(f"Yaml file '{file_path}' does not exist.")
+mlflow.exceptions.MissingConfigException: Yaml file './mlruns/1/meta.yaml' does not exist.
+2026/10/20 19:49:19 INFO:     127.0.0.1:52137 - "POST /api/2.0/mlflow/experiments/search HTTP/1.1" 200 OK
+WARNING:root:Malformed experiment '1'. Detailed error Yaml file './mlruns/1/meta.yaml' does not exist.
+Traceback (most recent call last):
+  File "/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/store/tracking/file_store.py", line 386, in search_experiments
+    exp = self._get_experiment(exp_id, view_type)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/store/tracking/file_store.py", line 487, in _get_experiment
+    meta = FileStore._read_yaml(experiment_dir, FileStore.META_DATA_FILE_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/store/tracking/file_store.py", line 1676, in _read_yaml
+    return _read_helper(root, file_name, attempts_remaining=retries)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/store/tracking/file_store.py", line 1669, in _read_helper
+    result = read_yaml(root, file_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/utils/yaml_utils.py", line 104, in read_yaml
+    raise MissingConfigException(f"Yaml file '{file_path}' does not exist.")
+mlflow.exceptions.MissingConfigException: Yaml file './mlruns/1/meta.yaml' does not exist.
+2026/10/20 19:49:28 INFO:     127.0.0.1:52154 - "POST /api/2.0/mlflow/experiments/search HTTP/1.1" 200 OK
+2026/10/20 19:49:28 INFO:     127.0.0.1:52155 - "GET /api/2.0/mlflow/registered-apps HTTP/1.1" 404 Not Found
+2026/10/20 19:49:28 INFO:     127.0.0.1:52156 - "GET / HTTP/1.1" 200 OK
+2026/10/20 19:50:01 ERROR mlflow.server.handlers: Error in _get_experiment: Yaml file './mlruns/1/meta.yaml' does not exist.. Set MLFLOW_LOGGING_LEVEL=DEBUG for traceback.
+2026/10/20 19:50:01 INFO:     127.0.0.1:52210 - "GET /api/2.0/mlflow/experiments/get?experiment_id=1 HTTP/1.1" 500 Internal Server Error
+2026/10/20 19:50:01 INFO:     127.0.0.1:52211 - "POST /api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/20 19:50:48 INFO:     Received SIGTERM, exiting.
+2026/10/20 19:50:48 INFO:     Terminated child process [89473]
+2026/10/20 19:50:48 INFO:     Terminated child process [89474]
+2026/10/20 19:50:48 INFO:     Terminated child process [89475]
+2026/10/20 19:50:48 INFO:     Terminated child process [89476]
+2026/10/20 19:50:48 INFO:     Waiting for child process [89473]
+2026/10/20 19:50:48 INFO:     Shutting down
+2026/10/20 19:50:48 INFO:     Shutting down
+INFO:uvicorn.error:Shutting down
+2026/10/20 19:50:48 INFO:     Shutting down
+INFO:uvicorn.error:Shutting down
+2026/10/20 19:50:48 INFO:     Shutting down
+INFO:uvicorn.error:Shutting down
+2026/10/20 19:50:48 INFO:     Waiting for application shutdown.
+2026/10/20 19:50:48 INFO:     Application shutdown complete.
+2026/10/20 19:50:48 INFO:     Finished server process [89474]
+2026/10/20 19:50:48 INFO:     Waiting for application shutdown.
+INFO:uvicorn.error:Waiting for application shutdown.
+2026/10/20 19:50:48 INFO:     Application shutdown complete.
+INFO:uvicorn.error:Application shutdown complete.
+2026/10/20 19:50:48 INFO:     Finished server process [89475]
+INFO:uvicorn.error:Finished server process [89475]
+2026/10/20 19:50:48 INFO:     Waiting for application shutdown.
+INFO:uvicorn.error:Waiting for application shutdown.
+2026/10/20 19:50:48 INFO:     Application shutdown complete.
+INFO:uvicorn.error:Application shutdown complete.
+2026/10/20 19:50:48 INFO:     Finished server process [89476]
+INFO:uvicorn.error:Finished server process [89476]
+2026/10/20 19:50:48 INFO:     Waiting for application shutdown.
+INFO:uvicorn.error:Waiting for application shutdown.
+2026/10/20 19:50:48 INFO:     Application shutdown complete.
+INFO:uvicorn.error:Application shutdown complete.
+2026/10/20 19:50:48 INFO:     Finished server process [89473]
+INFO:uvicorn.error:Finished server process [89473]
+2026/10/20 19:50:48 INFO:     Waiting for child process [89474]
+2026/10/20 19:50:48 INFO:     Waiting for child process [89475]
+2026/10/20 19:50:48 INFO:     Waiting for child process [89476]
+2026/10/20 19:50:48 INFO:     Stopping parent process [89471]
+Registry store URI not provided. Using backend store URI.
+[MLflow] Security middleware enabled with default settings (localhost-only). To allow connections from other hosts, use --host 0.0.0.0 and configure --allowed-hosts and --cors-allowed-origins.
+2026/10/20 19:50:58 INFO mlflow.server.jobs.executor_registry: Available backends after discovery: local
+2026/10/20 19:50:58 INFO mlflow.server.jobs.executor_registry: Job executor backend 'local' passed requirements check
+2026/10/20 19:50:58 INFO:     Uvicorn running on http://127.0.0.1:5001 (Press CTRL+C to quit)
+2026/10/20 19:50:58 INFO:     Started parent process [90839]
+/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/server/fastapi_app.py:23: StarletteDeprecationWarning: starlette.middleware.wsgi is deprecated and will be removed in a future release. Please refer to https://github.com/abersheeran/a2wsgi as a replacement.
+  from starlette.middleware.wsgi import WSGIResponder, build_environ
+/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/server/fastapi_app.py:23: StarletteDeprecationWarning: starlette.middleware.wsgi is deprecated and will be removed in a future release. Please refer to https://github.com/abersheeran/a2wsgi as a replacement.
+  from starlette.middleware.wsgi import WSGIResponder, build_environ
+/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/server/fastapi_app.py:23: StarletteDeprecationWarning: starlette.middleware.wsgi is deprecated and will be removed in a future release. Please refer to https://github.com/abersheeran/a2wsgi as a replacement.
+  from starlette.middleware.wsgi import WSGIResponder, build_environ
+/Users/krishnateja/Downloads/mlops-assignment-01/mlops-heart-disease/.venv/lib/python3.11/site-packages/mlflow/server/fastapi_app.py:23: StarletteDeprecationWarning: starlette.middleware.wsgi is deprecated and will be removed in a future release. Please refer to https://github.com/abersheeran/a2wsgi as a replacement.
+  from starlette.middleware.wsgi import WSGIResponder, build_environ
+2026/10/20 19:51:00 INFO:     Started server process [90844]
+2026/10/20 19:51:00 INFO:     Waiting for application startup.
+2026/10/20 19:51:00 INFO:     Application startup complete.
+2026/10/20 19:51:00 INFO:     Started server process [90845]
+2026/10/20 19:51:00 INFO:     Waiting for application startup.
+2026/10/20 19:51:00 INFO:     Started server process [90843]
+2026/10/20 19:51:00 INFO:     Waiting for application startup.
+2026/10/20 19:51:00 INFO:     Started server process [90842]
+2026/10/20 19:51:00 INFO:     Waiting for application startup.
+2026/10/20 19:51:00 INFO:     Application startup complete.
+2026/10/20 19:51:00 INFO:     Application startup complete.
+2026/10/20 19:51:00 INFO:     Application startup complete.
+2026/10/20 19:51:02 INFO mlflow.server.jobs.utils: Registered online_scoring_scheduler periodic task (runs every 1 minute)
+2026/10/20 19:51:02 INFO mlflow.server.jobs.utils: Registered trace_archival_scheduler periodic task (polls every 1 minute and no-ops when trace archival is disabled or unconfigured)
+2026/10/20 19:51:02 INFO mlflow.server.jobs.utils: SQL trace rollup scheduler was not registered because rollups are disabled
+2026/10/20 19:51:05 INFO:     127.0.0.1:52395 - "GET / HTTP/1.1" 200 OK
+2026/10/20 19:51:05 INFO:     127.0.0.1:52396 - "POST /api/2.0/mlflow/experiments/search HTTP/1.1" 200 OK
+2026/10/20 19:51:05 INFO:     127.0.0.1:52397 - "POST /api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/20 19:51:13 INFO:     127.0.0.1:52430 - "POST /api/2.0/mlflow/runs/search HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52471 - "GET / HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52471 - "GET /static-files/static/js/main.683d7930.js HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52472 - "GET /static-files/static/css/main.b0f58ef9.css HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52473 - "GET /static-files/manifest.json HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52471 - "GET /static-files/TelemetryLogger.telemetry-worker.d0f8ea2c83c08b63528f.worker.js HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52472 - "GET /static-files/favicon.ico HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52471 - "GET /ajax-api/3.0/mlflow/server-info HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52471 - "GET /static-files/static/js/4205.9e750e7b.chunk.js HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52472 - "GET /ajax-api/3.0/mlflow/assistant/config HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52472 - "GET /ajax-api/3.0/mlflow/assistant/config HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52472 - "GET /static-files/static/js/3877.9df04fb4.chunk.js HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52472 - "GET /static-files/static/js/7340.cdf02082.chunk.js HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52480 - "GET /static-files/static/js/5027.a66ffe35.chunk.js HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52479 - "GET /static-files/static/css/5027.26533251.chunk.css HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52472 - "GET /static-files/static/media/demo-tracing-screenshot-dark.5cb0c24b165d2ed2fef0.png HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52480 - "GET /ajax-api/2.0/mlflow/experiments/search?max_results=5&order_by=last_update_time+DESC HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52477 - "GET /ajax-api/3.0/mlflow/assistant/providers HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52473 - "GET /ajax-api/3.0/mlflow/ui-telemetry HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52471 - "GET /ajax-api/2.0/mlflow/users/current HTTP/1.1" 404 Not Found
+2026/10/20 19:51:26 INFO:     127.0.0.1:52471 - "GET /static-files/static/media/claude-code.658402b49b66f4df4aaed26cc6a88a8b.svg HTTP/1.1" 200 OK
+2026/10/20 19:51:26 INFO:     127.0.0.1:52472 - "GET /ajax-api/3.0/mlflow/assistant/providers HTTP/1.1" 200 OK
+2026/10/20 19:51:34 INFO:     127.0.0.1:52519 - "GET / HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52578 - "GET / HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52578 - "GET /static-files/static/js/main.683d7930.js HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52579 - "GET /static-files/static/css/main.b0f58ef9.css HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52580 - "GET /static-files/manifest.json HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52578 - "GET /static-files/TelemetryLogger.telemetry-worker.d0f8ea2c83c08b63528f.worker.js HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52579 - "GET /ajax-api/3.0/mlflow/server-info HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52578 - "GET /ajax-api/3.0/mlflow/ui-telemetry HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52580 - "GET /static-files/favicon.ico HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52580 - "GET /static-files/static/js/4205.9e750e7b.chunk.js HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52580 - "GET /ajax-api/2.0/mlflow/users/current HTTP/1.1" 404 Not Found
+2026/10/20 19:51:50 INFO:     127.0.0.1:52578 - "GET /ajax-api/3.0/mlflow/assistant/config HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52579 - "GET /ajax-api/3.0/mlflow/assistant/providers HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52579 - "GET /ajax-api/3.0/mlflow/assistant/providers HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52578 - "GET /ajax-api/3.0/mlflow/assistant/config HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52578 - "GET /static-files/static/js/3877.9df04fb4.chunk.js HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52578 - "GET /static-files/static/media/claude-code.658402b49b66f4df4aaed26cc6a88a8b.svg HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52580 - "GET /static-files/static/js/5027.a66ffe35.chunk.js HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52579 - "GET /static-files/static/css/5027.26533251.chunk.css HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52578 - "GET /static-files/static/js/7340.cdf02082.chunk.js HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52579 - "GET /static-files/static/media/demo-tracing-screenshot-dark.5cb0c24b165d2ed2fef0.png HTTP/1.1" 200 OK
+2026/10/20 19:51:50 INFO:     127.0.0.1:52580 - "GET /ajax-api/2.0/mlflow/experiments/search?max_results=5&order_by=last_update_time+DESC HTTP/1.1" 200 OK
+2026/10/20 19:52:24 INFO:     Shutting down
+2026/10/20 19:52:24 INFO:     Shutting down
+2026/10/20 19:52:24 INFO:     Shutting down
+2026/10/20 19:52:24 INFO:     Shutting down
+2026/10/20 19:52:25 INFO:     Waiting for application shutdown.
+2026/10/20 19:52:25 INFO:     Waiting for application shutdown.
+2026/10/20 19:52:25 INFO:     Application shutdown complete.
+2026/10/20 19:52:25 INFO:     Finished server process [90845]
+2026/10/20 19:52:25 INFO:     Application shutdown complete.
+2026/10/20 19:52:25 INFO:     Finished server process [90844]
+2026/10/20 19:52:25 INFO:     Waiting for application shutdown.
+2026/10/20 19:52:25 INFO:     Application shutdown complete.
+2026/10/20 19:52:25 INFO:     Finished server process [90842]
+2026/10/20 19:52:25 INFO:     Waiting for application shutdown.
+2026/10/20 19:52:25 INFO:     Application shutdown complete.
+2026/10/20 19:52:25 INFO:     Finished server process [90843]
+2026/10/20 19:52:25 INFO:     Received SIGTERM, exiting.
+2026/10/20 19:52:25 INFO:     Waiting for child process [90842]
+2026/10/20 19:52:25 INFO:     Waiting for child process [90843]
+2026/10/20 19:52:25 INFO:     Waiting for child process [90844]
+2026/10/20 19:52:25 INFO:     Waiting for child process [90845]
+2026/10/20 19:52:25 INFO:     Stopping parent process [90839]
