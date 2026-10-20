@@ -370,7 +370,7 @@ python reports/architecture/generate_architecture.py
 
 ## Repository URL
 
-**https://github.com/Vishnu-Gsv-210/mlops-heart-disease** (public repository; implementation commit `eafc833`, evidence commit `b94eab9`).
+**https://github.com/Vishnu-Gsv-210/mlops-heart-disease** (public repository; implementation commit `d5f4ab5`, evidence commit `e129580`; all commits authored by Vishnu Gopisetti).
 
 ---
 

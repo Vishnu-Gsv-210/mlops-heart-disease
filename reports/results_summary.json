@@ -330,6 +330,11 @@
   "repository": {
     "url": "https://github.com/Vishnu-Gsv-210/mlops-heart-disease",
     "visibility": "public",
-    "note": "implementation history pushed from the development mirror; commit SHAs identical"
+    "note": "implementation history pushed from the development mirror; commit SHAs identical",
+    "head_commits": [
+      "e129580 Add GitHub Actions CI run evidence",
+      "d5f4ab5 Complete MLOps heart disease assignment: pipeline, CI/CD, Docker, Kubernetes, monitoring"
+    ],
+    "author": "Vishnu Gopisetti <345445001+Vishnu-Gsv-210@users.noreply.github.com>"
   }
 }
