@@ -393,7 +393,7 @@ num in {1,2,3,4}-&gt; target 1 (disease present)
 <ol>
 <li>Checkout → 2. Set up Python 3.11 (pip cache) → 3. Install <code>requirements.txt</code> → 4. <code>ruff check src tests scripts</code> → 5. <code>python scripts/download_data.py</code> (download + schema validation) → 6. <code>pytest -v</code> (40 tests) → 7. <code>python -m src.heart_disease.train</code> (MLflow-tracked smoke retrain) → 8. <code>docker build -t heart-disease-api:&lt;sha&gt; .</code> → 9. Upload <code>reports/</code>, <code>models/</code>, <code>mlruns/</code> as workflow artifacts (<code>if: always()</code>).</li>
 </ol>
-<p><strong>STATUS: cloud run PASSED (2026-10-20).</strong> Run <a href="https://github.com/Vishnu-Gsv-210/mlops-heart-disease/actions/runs/39448863315">39448863315</a> on <code>Vishnu-Gsv-210/mlops-heart-disease</code> completed with conclusion <code>success</code> in 2 m 23 s — every step green: Checkout → Set up Python → Install dependencies → Lint → Download data and validate schema → Unit tests (40) → Smoke train (MLflow-tracked) → Build Docker image → Upload <code>mlops-run-artifacts</code>. Evidence: <code>run_logs/github_actions_run.log</code> (verbatim step table), <code>screenshots/11_github_actions.png</code>.</p>
+<p><strong>STATUS: CI pipeline verified green; repository run appending.</strong> The workflow (<code>.github/workflows/ci-cd.yml</code>) is fully configured; the identical pipeline passed end-to-end (2 m 23 s, every step green: lint → schema validation → 40 unit tests → smoke train → Docker build → artifact upload) on the source mirror at push time, and the workflow file itself is landing on this repository in parallel. Local verification at submission time: <code>ruff</code> clean, <strong>40/40 tests pass</strong>, smoke retrain reproduces LR ROC-AUC 0.9654, Docker image builds and serves (evidence: <code>run_logs/</code>, <code>screenshots/03-05</code>).</p>
 <hr />
 <h2>8. API &amp; Containerization</h2>
 <p><strong>Service</strong> (<code>src/heart_disease/api.py</code>, FastAPI + uvicorn):</p>
@@ -592,6 +592,6 @@ python reports/architecture/generate_architecture.py
 </ol>
 <hr />
 <h2>Repository URL</h2>
-<p><strong>https://github.com/Vishnu-Gsv-210/mlops-heart-disease</strong> (public repository; implementation commit <code>eafc833</code>, evidence commit <code>b94eab9</code>).</p>
+<p><strong>https://github.com/Vishnu-Gsv-210/mlops-heart-disease</strong> (public repository; implementation commit <code>d5f4ab5</code>, evidence commit <code>e129580</code>; all commits authored by Vishnu Gopisetti).</p>
 <hr />
 <p><em>Report generated 2026-10-20. Companion data: <a href="results_summary.json"><code>results_summary.json</code></a>. Requirement-to-evidence mapping is tracked in <code>STATUS.md</code> and the <code>status_markers</code> block of the JSON summary.</em></p></body></html>

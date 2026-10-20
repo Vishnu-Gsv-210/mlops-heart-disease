@@ -44,12 +44,12 @@ weights (total 50); check against the official rubric.
 | `screenshots/09_prometheus_metrics.png` | /metrics output | DONE |
 | `screenshots/09b_prometheus_targets.png` | Prometheus /targets page, both targets UP (bonus) | DONE |
 | `screenshots/10_grafana.png` | Grafana dashboard live | DONE |
-| `screenshots/11_github_actions.png` | own-repo CI run green | DONE |
+| `screenshots/11_github_actions.png` | own-repo CI run green | APPENDING (in-repo run pending scoped-token push) |
 
 ## Deliverables outstanding
 
-None blocking (as of 2026-10-20, 21:10 local). All 11 evidence screenshots, both
-report PDFs, the executed notebook, the green CI runs (39448863315, 39449366941),
+CI in-repo run evidence appending (workflow file landing with scoped token). Other evidence: both
+report PDFs, the executed notebook, the end-to-end verified CI pipeline,
 the minikube rollout, and the live monitoring stack are captured. Remaining
 captain-side actions are personal: review the report, record any additional
 walkthrough video if the course requires a narrated one, and submit.

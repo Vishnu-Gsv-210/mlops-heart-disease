@@ -223,15 +223,9 @@
       "bytes": 116575,
       "sha256": "137b85f41aeec4fd75024a4acaaf19cf9b21c8ef0ffa5e2cd096af935937c755",
       "shows": "Live Grafana dashboard 'Heart Disease API' (provisioned datasource, real panels)"
-    },
-    {
-      "path": "screenshots/11_github_actions.png",
-      "bytes": 146809,
-      "sha256": "0503ccc67b42048d420b7bc155fcea104f955b0d72c124fd660fd937d08915f4",
-      "shows": "gh run view: run 39448863315 green, all steps passed"
     }
   ],
-  "evidence_inventory_note": "All 11 required evidence captures present (plus bonus 09b); every PNG derives from real local execution on 2026-10-20.",
+  "evidence_inventory_note": "10 evidence captures present; screenshot 11 (own-repo Actions run) appends once the workflow file lands on the public repo via a scoped-token push.",
   "artifact_paths": {
     "architecture_diagram": "reports/architecture/architecture.png",
     "architecture_generator": "reports/architecture/generate_architecture.py",

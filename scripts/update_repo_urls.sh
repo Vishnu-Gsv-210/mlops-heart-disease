@@ -8,7 +8,6 @@ cd "$(dirname "$0")/.."
 
 for f in reports/final_report.md STATUS.md reports/results_summary.json README.md; do
   [ -f "$f" ] || continue
-  LC_ALL=C sed -i '' "s|github\.com/${OLD}/mlops-heart-disease|github.com/${NEW}/mlops-heart-disease|g; s|kteja-av/mlops-heart-disease|${NEW}/mlops-heart-disease|g" "$f"
 done
 
 .venv/bin/python scripts/export_report_pdf.py
