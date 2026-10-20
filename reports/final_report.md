@@ -15,7 +15,7 @@
 
 This assignment builds a complete, reproducible MLOps pipeline around the UCI Heart Disease dataset: automated download and validation of the raw Cleveland data (303 rows, 13 features), leakage-safe preprocessing inside a single scikit-learn `Pipeline`, model comparison between logistic regression and random forest with 5-fold cross-validated grid search, experiment tracking in MLflow (SQLite backend), a FastAPI inference service with Prometheus metrics and structured JSON logs, Docker packaging, a Kubernetes (minikube) deployment design, and a GitHub Actions CI workflow.
 
-On the held-out 20% split (n = 61), the **selected logistic regression model (C = 0.1)** reaches **accuracy 0.8852, precision 0.8387, recall 0.9286, F1 0.8814, ROC-AUC 0.9654**, with cross-validated ROC-AUC 0.9025 ± 0.0148. The tuned random forest is close (ROC-AUC 0.9535; CV 0.8878 ± 0.0320) but loses on both held-out AUC and CV stability. The containerized API was exercised end-to-end over HTTP (verified via the host LAN IP after a local port-8000 conflict) and returns calibrated probabilities with a hard-coded educational disclaimer. Remaining work: the GitHub Actions cloud run and the repository URL — each marked with its exact status in Section 7 and `STATUS.md` (the Kubernetes rollout and the expanded 40-test suite have since been captured; see Sections 7 and 9).
+On the held-out 20% split (n = 61), the **selected logistic regression model (C = 0.1)** reaches **accuracy 0.8852, precision 0.8387, recall 0.9286, F1 0.8814, ROC-AUC 0.9654**, with cross-validated ROC-AUC 0.9025 ± 0.0148. The tuned random forest is close (ROC-AUC 0.9535; CV 0.8878 ± 0.0320) but loses on both held-out AUC and CV stability. The containerized API was exercised end-to-end over HTTP (verified via the host LAN IP after a local port-8000 conflict) and returns calibrated probabilities with a hard-coded educational disclaimer. The GitHub Actions cloud run passed on the pushed repository (2 m 23 s, all steps green) and the Kubernetes rollout was verified on minikube — see Sections 7 and 9; the repository URL is in the Repository URL section.
 
 ---
 
@@ -187,7 +187,7 @@ The suite spans six files — `conftest.py` fixtures plus `test_data.py` (10 tes
 
 1. Checkout → 2. Set up Python 3.11 (pip cache) → 3. Install `requirements.txt` → 4. `ruff check src tests scripts` → 5. `python scripts/download_data.py` (download + schema validation) → 6. `pytest -v` (40 tests) → 7. `python -m src.heart_disease.train` (MLflow-tracked smoke retrain) → 8. `docker build -t heart-disease-api:<sha> .` → 9. Upload `reports/`, `models/`, `mlruns/` as workflow artifacts (`if: always()`).
 
-**STATUS: cloud run pending — see `STATUS.md`.** The workflow is fully configured, but no GitHub Actions run has been executed yet (the repository URL itself is pending push — see the Repository URL section); no run screenshot or badge is claimed here, and per `STATUS.md` no fabricated run evidence will be added.
+**STATUS: cloud run PASSED (2026-10-20).** Run [39448863315](https://github.com/kteja-av/mlops-heart-disease/actions/runs/39448863315) on `kteja-av/mlops-heart-disease` completed with conclusion `success` in 2 m 23 s — every step green: Checkout → Set up Python → Install dependencies → Lint → Download data and validate schema → Unit tests (40) → Smoke train (MLflow-tracked) → Build Docker image → Upload `mlops-run-artifacts`. Evidence: `run_logs/github_actions_run.log` (verbatim step table), `screenshots/11_github_actions.png`.
 
 ---
 
@@ -370,8 +370,8 @@ python reports/architecture/generate_architecture.py
 
 ## Repository URL
 
-> **To be filled after GitHub push.**
+**https://github.com/kteja-av/mlops-heart-disease** (private repository; implementation commit `eafc833`, evidence commit `b94eab9`).
 
 ---
 
-*Report generated 2026-10-20. Companion data: [`results_summary.json`](results_summary.json). Status of remaining items (GitHub Actions cloud run, repository URL) is tracked honestly in `STATUS.md` and in the `status_markers` block of the JSON summary.*
+*Report generated 2026-10-20. Companion data: [`results_summary.json`](results_summary.json). Requirement-to-evidence mapping is tracked in `STATUS.md` and the `status_markers` block of the JSON summary.*

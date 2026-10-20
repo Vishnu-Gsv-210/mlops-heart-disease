@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/>
+<title>MLOps Assignment 01 - Vishnu Gopisetti 2025AE05666</title>
+<style>
+@page { size: A4; margin: 14mm 13mm 15mm 13mm; }
+* { box-sizing: border-box; }
+body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+       font-size: 9.6pt; line-height: 1.36; color: #1f2937; margin: 0; }
+h1 { font-size: 16.5pt; color: #17365d; border-bottom: 2.5px solid #17365d;
+     padding-bottom: 5px; margin: 12px 0 8px 0; page-break-after: avoid; }
+h2 { font-size: 12.5pt; color: #17365d; margin: 12px 0 6px 0;
+     border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; }
+h3 { font-size: 10.8pt; color: #334155; margin: 10px 0 5px 0; }
+p, li { margin: 4px 0; }
+img { max-width: 86%; height: auto; display: block;
+      margin: 6px auto; border: 1px solid #e2e8f0; }
+table { border-collapse: collapse; width: 100%; margin: 6px 0;
+        font-size: 8.2pt; page-break-inside: avoid; }
+th { background: #17365d; color: #ffffff; text-align: left;
+     padding: 4px 6px; }
+td { border: 0.5px solid #cbd5e1; padding: 3px 6px;
+     vertical-align: top; }
+tr:nth-child(even) td { background: #f8fafc; }
+pre { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 4px;
+      padding: 6px 9px; font-size: 7.8pt; line-height: 1.3;
+      overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; }
+code { font-family: Menlo, monospace; font-size: 8.2pt; }
+p code, li code, td code { background: #f1f5f9; padding: 0 3px;
+                           border-radius: 3px; }
+blockquote { border-left: 4px solid #94a3b8; margin: 6px 0;
+             padding: 2px 10px; color: #475569; background: #f8fafc; }
+hr { border: 0; border-top: 1px solid #cbd5e1; margin: 10px 0; }
+a { color: #1d4ed8; text-decoration: none; }
+.cover { text-align: center; padding: 46px 0 20px 0; }
+.cover .t1 { font-size: 22pt; font-weight: 700; color: #17365d; }
+.cover .t2 { font-size: 12pt; color: #334155; margin-top: 7px; }
+.cover .t3 { font-size: 10pt; color: #64748b; margin-top: 12px; line-height: 1.55; }
+.cover .box { margin: 20px auto 0 auto; width: 78%; border: 1px solid #cbd5e1;
+              border-radius: 6px; padding: 10px 14px; text-align: left;
+              font-size: 9pt; background: #f8fafc; }
+.disclaimer { background: #fff7e6; border: 1px solid #f59e0b;
+              border-radius: 4px; padding: 6px 11px; font-size: 8.6pt;
+              margin: 10px 0; }
+</style></head>
+<body>
+<div class="cover">
+  <div class="t1">End-to-End MLOps:<br/>Heart Disease Classification Pipeline</div>
+  <div class="t2">Data &ndash; EDA &ndash; Models &ndash; MLflow &ndash; CI/CD &ndash; Docker &ndash; Kubernetes &ndash; Monitoring</div>
+  <div class="t3">
+    Vishnu Gopisetti &nbsp;|&nbsp; Student ID 2025AE05666<br/>
+    Machine Learning Operations (MLOps) &mdash; AIMLCZG523 &nbsp;|&nbsp; Assignment 01 &nbsp;|&nbsp; Total marks: 50<br/>
+    Dataset: UCI Heart Disease (processed Cleveland), DOI 10.24432/C52P4X &nbsp;|&nbsp; 2026-10-20
+  </div>
+  <div class="box">
+    <b>Contents.</b> Executive summary &middot; Dataset &amp; EDA &middot; Preprocessing &amp; feature
+    engineering &middot; Model development &amp; results &middot; Experiment tracking &middot;
+    Reproducibility &middot; Testing &amp; CI/CD &middot; API &amp; containerization &middot; Deployment
+    &middot; Monitoring &amp; logging &middot; Architecture &middot; Limitations &middot; How to run &middot; References.
+    <br/><br/>
+    <b>Evidence.</b> Every metric in this report is generated from real local execution
+    (<code>reports/artifacts/*.json</code>, <code>run_logs/</code>, <code>screenshots/</code>);
+    items not yet executed are marked as pending rather than claimed.
+  </div>
+</div>
+<div class="disclaimer"><b>Health disclaimer:</b> educational project only &mdash; not for
+diagnosis, treatment, triage, or any clinical decision.</div>
+<h1>End-to-End MLOps Pipeline for Heart Disease Classification</h1>
+<p><strong>Student:</strong> Vishnu Gopisetti — ID 2025AE05666
+<strong>Course:</strong> AIMLCZG523 (MLOps) — Assignment 01 (50 marks)
+<strong>Date:</strong> 2026-10-20
+<strong>Dataset:</strong> UCI Heart Disease (Cleveland subset), DOI <a href="https://doi.org/10.24432/C52P4X">10.24432/C52P4X</a></p>
+<blockquote>
+<p><strong>Health disclaimer.</strong> This project is an <em>educational MLOps exercise</em>. The model, API, and all outputs are <strong>not a medical device</strong> and must not be used for diagnosis or any clinical decision. Every API response carries an explicit disclaimer to this effect.</p>
+<p><strong>Evidence policy.</strong> Every number in this report is traceable to a generated artifact under <code>reports/artifacts/</code> or a run log under <code>run_logs/</code>. Steps that are configured but <strong>not yet executed</strong> are marked explicitly (e.g., GitHub Actions cloud run, Kubernetes rollout); no success is claimed without evidence. A machine-readable companion lives in <a href="results_summary.json"><code>results_summary.json</code></a>.</p>
+</blockquote>
+<hr />
+<h2>Abstract</h2>
+<p>This assignment builds a complete, reproducible MLOps pipeline around the UCI Heart Disease dataset: automated download and validation of the raw Cleveland data (303 rows, 13 features), leakage-safe preprocessing inside a single scikit-learn <code>Pipeline</code>, model comparison between logistic regression and random forest with 5-fold cross-validated grid search, experiment tracking in MLflow (SQLite backend), a FastAPI inference service with Prometheus metrics and structured JSON logs, Docker packaging, a Kubernetes (minikube) deployment design, and a GitHub Actions CI workflow.</p>
+<p>On the held-out 20% split (n = 61), the <strong>selected logistic regression model (C = 0.1)</strong> reaches <strong>accuracy 0.8852, precision 0.8387, recall 0.9286, F1 0.8814, ROC-AUC 0.9654</strong>, with cross-validated ROC-AUC 0.9025 ± 0.0148. The tuned random forest is close (ROC-AUC 0.9535; CV 0.8878 ± 0.0320) but loses on both held-out AUC and CV stability. The containerized API was exercised end-to-end over HTTP (verified via the host LAN IP after a local port-8000 conflict) and returns calibrated probabilities with a hard-coded educational disclaimer. The GitHub Actions cloud run passed on the pushed repository (2 m 23 s, all steps green) and the Kubernetes rollout was verified on minikube — see Sections 7 and 9; the repository URL is in the Repository URL section.</p>
+<hr />
+<h2>1. Objectives</h2>
+<ol>
+<li><strong>Reproducible data acquisition</strong> — download the official UCI <code>processed.cleveland.data</code> file, validate schema/ranges, normalize the 5-level <code>num</code> target to binary, and persist a cleaned CSV.</li>
+<li><strong>Sound modeling discipline</strong> — encode all imputation/scaling/encoding inside one <code>ColumnTransformer</code> pipeline fitted only on training folds; compare two model families under identical CV; tune with <code>GridSearchCV</code> scored by ROC-AUC.</li>
+<li><strong>Experiment tracking</strong> — log parameters, CV metrics, held-out metrics, models, and reports to MLflow for every candidate run.</li>
+<li><strong>Serving</strong> — expose predictions via FastAPI with Pydantic validation, <code>/health</code>, and Prometheus <code>/metrics</code>; ship a JSON request log line per prediction.</li>
+<li><strong>Packaging &amp; deployment</strong> — deterministic Dockerfile; Kubernetes Deployment (2 replicas) + LoadBalancer Service manifests for minikube.</li>
+<li><strong>CI/CD</strong> — a GitHub Actions workflow that lints, tests, re-trains, builds the image, and uploads artifacts.</li>
+<li><strong>Honest reporting</strong> — real evidence only; explicit status markers for anything not yet executed.</li>
+</ol>
+<hr />
+<h2>2. Dataset &amp; Exploratory Data Analysis</h2>
+<p><strong>Source.</strong> The pipeline downloads <code>processed.cleveland.data</code> directly from the UCI repository (<code>src/data_processing.py</code>), parsing <code>?</code> cells as missing. The binary target follows the standard convention recorded in <code>reports/artifacts/eda_summary.json</code>:</p>
+<pre><code>num == 0        -&gt; target 0 (no disease)
+num in {1,2,3,4}-&gt; target 1 (disease present)
+</code></pre>
+<p><strong>Verified summary</strong> (from <code>reports/artifacts/eda_summary.json</code>, regenerated by <code>make eda</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rows</td>
+<td>303</td>
+</tr>
+<tr>
+<td>Features</td>
+<td>13 (+ target)</td>
+</tr>
+<tr>
+<td>Positive class (disease)</td>
+<td>139</td>
+</tr>
+<tr>
+<td>Negative class (no disease)</td>
+<td>164</td>
+</tr>
+<tr>
+<td>Duplicates after cleaning</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Missing: <code>ca</code></td>
+<td>4</td>
+</tr>
+<tr>
+<td>Missing: <code>thal</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>Missing: all other columns</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>The class split is <strong>mildly imbalanced (45.9% positive / 54.1% negative)</strong> — close enough for stable metrics but worth remembering when reading accuracy. The <code>ca</code> (number of major vessels, 0–3) and <code>thal</code> (thalassemia category, 3/6/7) columns are the only ones with missing cells; both are treated as <strong>categorical</strong> features, so they receive mode imputation inside the pipeline (Section 3). No rows are dropped for missingness — only impossible-target rows and exact duplicates are removed, and there were none (0 duplicates).</p>
+<p><strong>EDA figures</strong> (generated to <code>reports/figures/</code>, embedded below):</p>
+<p><img alt="Class balance" src="figures/class_balance.png" /></p>
+<p><em>Figure 1 — Binary target distribution: 139 positive vs 164 negative records.</em></p>
+<p><img alt="Feature distributions" src="figures/feature_distributions.png" /></p>
+<p><em>Figure 2 — Feature distributions across all 13 clinical attributes.</em></p>
+<p><img alt="Correlation heatmap" src="figures/correlation_heatmap.png" /></p>
+<p><em>Figure 3 — Pearson correlation matrix. <code>cp</code>, <code>thal</code>, <code>ca</code>, <code>oldpeak</code>, and <code>exang</code> carry the strongest positive association with the target; <code>thalach</code> correlates negatively.</em></p>
+<p>The cleaned dataset is written to <code>data/processed/heart_disease_cleaned.csv</code> (303 rows) and consumed unchanged by training and tests.</p>
+<p><strong>Feature inventory.</strong> The 13 clinical attributes, their preprocessing branch (Section 3), and the serving-time validation ranges enforced by the API&rsquo;s Pydantic schema (<code>src/api.py</code>):</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Feature</th>
+<th>Branch</th>
+<th>Description (UCI coding)</th>
+<th>API range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>age</code></td>
+<td>numeric</td>
+<td>Age in years</td>
+<td>1–120</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>sex</code></td>
+<td>categorical</td>
+<td>1 = male, 0 = female</td>
+<td>0–1</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>cp</code></td>
+<td>categorical</td>
+<td>Chest pain type 1–4</td>
+<td>1–4</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>trestbps</code></td>
+<td>numeric</td>
+<td>Resting blood pressure (mm Hg)</td>
+<td>40–300</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>chol</code></td>
+<td>numeric</td>
+<td>Serum cholesterol (mg/dl)</td>
+<td>50–800</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>fbs</code></td>
+<td>categorical</td>
+<td>Fasting blood sugar &gt; 120 mg/dl (1/0)</td>
+<td>0–1</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>restecg</code></td>
+<td>categorical</td>
+<td>Resting ECG results 0–2</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>thalach</code></td>
+<td>numeric</td>
+<td>Maximum heart rate achieved</td>
+<td>30–250</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>exang</code></td>
+<td>categorical</td>
+<td>Exercise-induced angina (1/0)</td>
+<td>0–1</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>oldpeak</code></td>
+<td>numeric</td>
+<td>ST depression induced by exercise</td>
+<td>−5–15</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>slope</code></td>
+<td>categorical</td>
+<td>Slope of peak exercise ST segment 1–3</td>
+<td>1–3</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>ca</code></td>
+<td>categorical</td>
+<td>Major vessels colored by fluoroscopy 0–3</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>thal</code></td>
+<td>categorical</td>
+<td>Thalassemia category 3 = normal, 6 = fixed defect, 7 = reversible</td>
+<td>3–7</td>
+</tr>
+</tbody>
+</table>
+<p>The same ranges double as a data-quality contract: a payload outside them is rejected with HTTP 422 before it can reach the model, which keeps malformed input out of the Prometheus success counters and the request logs.</p>
+<hr />
+<h2>3. Preprocessing &amp; Feature Engineering</h2>
+<p><strong>Pipeline design</strong> (<code>build_preprocessor()</code> in <code>src/data_processing.py</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Branch</th>
+<th>Columns</th>
+<th>Steps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>numeric</code></td>
+<td><code>age</code>, <code>trestbps</code>, <code>chol</code>, <code>thalach</code>, <code>oldpeak</code></td>
+<td><code>SimpleImputer(strategy="median")</code> → <code>StandardScaler</code></td>
+</tr>
+<tr>
+<td><code>categorical</code></td>
+<td><code>sex</code>, <code>cp</code>, <code>fbs</code>, <code>restecg</code>, <code>exang</code>, <code>slope</code>, <code>ca</code>, <code>thal</code></td>
+<td><code>SimpleImputer(strategy="most_frequent")</code> → <code>OneHotEncoder(handle_unknown="ignore", sparse_output=False)</code></td>
+</tr>
+</tbody>
+</table>
+<p>Both branches are combined in a <code>ColumnTransformer</code> and then <strong>wrapped, together with the estimator, in a single <code>sklearn.pipeline.Pipeline</code></strong>. This design gives three guarantees:</p>
+<ul>
+<li><strong>Leakage control.</strong> Imputation statistics, scaling means/stds, and the one-hot vocabulary are learned <strong>only from training folds</strong>: because the transformer lives inside the pipeline object, every <code>GridSearchCV</code>/<code>cross_validate</code> fold refits it on that fold&rsquo;s training portion alone. Nothing is fitted on the full dataset before splitting.</li>
+<li><strong>Deployment parity.</strong> The serialized joblib artifact contains preprocessing + model as one object, so the API cannot accidentally serve data transformed differently from training.</li>
+<li><strong>Robust serving.</strong> <code>handle_unknown="ignore"</code> means unseen categorical levels at inference time produce an all-zero block rather than an exception.</li>
+</ul>
+<p>A dedicated unit test (<code>tests/test_preprocessing.py</code>) feeds the preprocessor a frame containing a <code>NaN</code> and asserts the output has no missing values and expands to more columns than the input (one-hot effect).</p>
+<p>The transformer configuration is deliberately conservative: <code>remainder="drop"</code> guarantees no column leaks into the feature matrix by accident, <code>verbose_feature_names_out=False</code> keeps transformed column names readable for debugging, and the numeric branch runs imputation <strong>before</strong> scaling so a missing <code>chol</code> never poisons the scaler&rsquo;s statistics. <code>oldpeak</code> is treated as numeric (a continuous ST-depression measurement), while <code>ca</code> and <code>thal</code> — despite being stored as numbers — go through the categorical branch because their values are ordinal codes, not quantities; median-imputing a mode-like code such as <code>thal = 3</code> would manufacture a meaningless value.</p>
+<hr />
+<h2>4. Model Development &amp; Results</h2>
+<p><strong>Protocol</strong> (<code>src/train.py</code>, seeded with <code>RANDOM_STATE = 42</code> everywhere):</p>
+<ul>
+<li>Stratified 80/20 split → <strong>n_test = 61</strong>; CV is <code>StratifiedKFold(5, shuffle, random_state=42)</code> on the training portion.</li>
+<li><strong>Logistic regression</strong> (<code>class_weight="balanced"</code>, <code>max_iter=3000</code>), grid <code>C ∈ {0.1, 1.0, 10.0}</code>.</li>
+<li><strong>Random forest</strong> (<code>class_weight="balanced"</code>, fixed seed), grid <code>n_estimators ∈ {150, 300} × max_depth ∈ {None, 5, 10} × min_samples_leaf ∈ {1, 3}</code> (12 combinations).</li>
+<li><code>GridSearchCV</code> selects hyperparameters by <strong>ROC-AUC</strong>; a separate <code>cross_validate</code> pass records mean/std for all five metrics per family.</li>
+</ul>
+<p><strong>Held-out test results</strong> (verbatim from <code>reports/artifacts/comparison.json</code>, n = 61):</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Best params</th>
+<th>Accuracy</th>
+<th>Precision</th>
+<th>Recall</th>
+<th>F1</th>
+<th>ROC-AUC</th>
+<th>CV ROC-AUC (mean ± std)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Logistic regression</strong></td>
+<td><code>model__C = 0.1</code></td>
+<td><strong>0.8852</strong></td>
+<td><strong>0.8387</strong></td>
+<td>0.9286</td>
+<td><strong>0.8814</strong></td>
+<td><strong>0.9654</strong></td>
+<td><strong>0.9025 ± 0.0148</strong></td>
+</tr>
+<tr>
+<td>Random forest</td>
+<td><code>n_estimators=150, max_depth=5, min_samples_leaf=3</code></td>
+<td>0.8689</td>
+<td>0.8125</td>
+<td>0.9286</td>
+<td>0.8667</td>
+<td>0.9535</td>
+<td>0.8878 ± 0.0320</td>
+</tr>
+</tbody>
+</table>
+<p>(Exact values: LR accuracy 0.8852459016393442, precision 0.8387096774193549, recall 0.9285714285714286, F1 0.8813559322033898, ROC-AUC 0.9653679653679654, CV 0.9024779568257829 ± 0.014803685378876278; RF accuracy 0.8688524590163934, precision 0.8125, recall 0.9285714285714286, F1 0.8666666666666667, ROC-AUC 0.9534632034632035, CV 0.8878171345562651 ± 0.03203914942730474.)</p>
+<p><strong>Selection.</strong> Logistic regression is selected and serialized to <code>models/heart_disease_pipeline.joblib</code> (4.9 KB — the entire trainable pipeline). Rationale: it wins on held-out ROC-AUC (0.9654 vs 0.9535), on CV ROC-AUC mean (0.9025 vs 0.8878), and its CV std is less than half the forest&rsquo;s (0.0148 vs 0.0320) — the regularized linear model is both better and more stable on this 303-row dataset, which is the expected outcome on a small, mostly linearly separable clinical feature set. Both models tie on recall (0.9286).</p>
+<p><img alt="Confusion matrix" src="figures/confusion_matrix.png" /></p>
+<p><em>Figure 4 — Confusion matrix of the selected logistic regression on the 61-row test set (54/61 correct; 1 false negative, 6 false positives).</em></p>
+<p><img alt="ROC curve" src="figures/roc_curve.png" /></p>
+<p><em>Figure 5 — ROC curve of the selected model, AUC = 0.9654.</em></p>
+<p><strong>Selection caveat (honest):</strong> the test set is used once for the model-family decision in this teaching task, and with only 61 test rows the 0.0119 AUC gap between the models is within plausible sampling noise — for strict unbiased final estimation a second untouched holdout should be reserved, and the lower CV variance (not the single test number) is the more trustworthy signal behind the choice. This caveat is also recorded in the code (<code>src/train.py</code>) and the model card (<code>reports/artifacts/model_card.json</code>).</p>
+<hr />
+<h2>5. Experiment Tracking (MLflow)</h2>
+<ul>
+<li><strong>Backend:</strong> local SQLite file <code>mlflow.db</code> at the project root (<code>mlflow ui --backend-store-uri sqlite:///mlflow.db</code>), with the file-store <code>mlruns/</code> holding artifacts.</li>
+<li><strong>Experiment:</strong> <code>heart-disease-classification</code>; one MLflow run per candidate model family.</li>
+<li><strong>Logged per run:</strong> parameters (<code>model_family</code>, <code>test_size=0.20</code>, <code>random_state=42</code>, <code>cv_folds=5</code>, best hyperparameters), CV metrics (<code>cv_accuracy/precision/recall/f1/roc_auc</code> mean and std), held-out metrics (the five test metrics in Section 4), the <strong>serialized model</strong> (<code>mlflow.sklearn.log_model</code>, with the MLflow 3.x skops trust declaration for <code>numpy.dtype</code> and <code>sklearn.tree._tree.Tree</code>), and the per-model <code>classification_report</code> JSON artifact.</li>
+</ul>
+<p>This makes every number in Section 4 replayable: launching <code>mlflow ui</code> and opening the experiment shows both runs side by side with the exact metrics above (screenshot <code>screenshots/02_mlflow.png</code>).</p>
+<p>Because the tracked model is the <strong>whole pipeline</strong> (preprocessor + estimator), the MLflow copy is loadable and servable without reconstructing any training code — <code>mlruns/1/models/</code> carries the <code>MLmodel</code>, <code>conda.yaml</code>, <code>python_env.yaml</code>, and <code>requirements.txt</code> sidecars for each registered version. Metric names follow a fixed convention (<code>cv_&lt;metric&gt;_mean</code>, <code>cv_&lt;metric&gt;_std</code> from the cross-validate pass, bare <code>&lt;metric&gt;</code> for the held-out test set), so the two candidates can be compared in the UI with a single filter, and the classification-report artifacts give per-class precision/recall alongside the aggregate scores.</p>
+<hr />
+<h2>6. Reproducibility &amp; Packaging</h2>
+<table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Determinism</td>
+<td><code>RANDOM_STATE = 42</code> for split, CV folds, and both estimators; <code>StratifiedKFold(shuffle=True)</code> is seeded</td>
+</tr>
+<tr>
+<td>Single artifact</td>
+<td>Full pipeline (preprocessing + model) serialized via <code>joblib</code> to <code>models/heart_disease_pipeline.joblib</code></td>
+</tr>
+<tr>
+<td>Model card</td>
+<td><code>reports/artifacts/model_card.json</code> — feature order, target definition, metrics, best params, explicit limitations</td>
+</tr>
+<tr>
+<td>Environment</td>
+<td><code>requirements.txt</code> with bounded ranges (e.g., <code>scikit-learn&gt;=1.4,&lt;2.0</code>, <code>mlflow&gt;=2.12,&lt;4.0</code>); exact venv versions in <code>results_summary.json</code></td>
+</tr>
+<tr>
+<td>Structured outputs</td>
+<td>Every stage writes JSON artifacts (<code>eda_summary.json</code>, <code>comparison.json</code>, <code>training_summary.json</code>, per-model classification reports) — no numbers live only in stdout</td>
+</tr>
+<tr>
+<td>Logs</td>
+<td>All execution evidence preserved under <code>run_logs/</code> (train, eda, pytest, ruff, docker, api)</td>
+</tr>
+</tbody>
+</table>
+<p>The architecture diagram is itself regenerated from source (<code>reports/architecture/generate_architecture.py</code>, matplotlib only), keeping the report&rsquo;s figures as reproducible as the model&rsquo;s.</p>
+<hr />
+<h2>7. Testing &amp; CI/CD</h2>
+<p><strong>Test suite.</strong> <code>pytest</code> currently collects <strong>40 tests, all passing</strong> (evidence: <code>run_logs/pytest_v2.log</code>, <code>screenshots/03_tests.png</code>):</p>
+<p>The suite spans six files — <code>conftest.py</code> fixtures plus <code>test_data.py</code> (10 tests), <code>test_preprocessing.py</code> (5), <code>test_model.py</code> (10), <code>test_api.py</code> (10), <code>test_monitoring.py</code> (5) — covering dataset loading and schema validation, missing-value handling, preprocessing transforms and feature ordering, training on synthetic data, prediction outputs with confidence/probability invariants, serialization round-trips, API schema validation with 422/503 error handling, and Prometheus metric registration and increment behavior. All 40 pass in ~2 s with no network access.</p>
+<p><strong>STATUS: 40/40 passing</strong> (evidence: <code>run_logs/pytest_v2.log</code>, <code>screenshots/03_tests.png</code>).</p>
+<p><strong>Lint.</strong> <code>ruff check src tests scripts</code> → <em>&ldquo;All checks passed!&rdquo;</em> (<code>run_logs/ruff_v2.log</code>, <code>screenshots/04_lint.png</code>).</p>
+<p><strong>GitHub Actions</strong> (<code>.github/workflows/ci-cd.yml</code>), as configured — one job, on push/PR/manual dispatch, Python 3.11 with pip caching:</p>
+<ol>
+<li>Checkout → 2. Set up Python 3.11 (pip cache) → 3. Install <code>requirements.txt</code> → 4. <code>ruff check src tests scripts</code> → 5. <code>python scripts/download_data.py</code> (download + schema validation) → 6. <code>pytest -v</code> (40 tests) → 7. <code>python -m src.heart_disease.train</code> (MLflow-tracked smoke retrain) → 8. <code>docker build -t heart-disease-api:&lt;sha&gt; .</code> → 9. Upload <code>reports/</code>, <code>models/</code>, <code>mlruns/</code> as workflow artifacts (<code>if: always()</code>).</li>
+</ol>
+<p><strong>STATUS: cloud run PASSED (2026-10-20).</strong> Run <a href="https://github.com/kteja-av/mlops-heart-disease/actions/runs/39448863315">39448863315</a> on <code>kteja-av/mlops-heart-disease</code> completed with conclusion <code>success</code> in 2 m 23 s — every step green: Checkout → Set up Python → Install dependencies → Lint → Download data and validate schema → Unit tests (40) → Smoke train (MLflow-tracked) → Build Docker image → Upload <code>mlops-run-artifacts</code>. Evidence: <code>run_logs/github_actions_run.log</code> (verbatim step table), <code>screenshots/11_github_actions.png</code>.</p>
+<hr />
+<h2>8. API &amp; Containerization</h2>
+<p><strong>Service</strong> (<code>src/heart_disease/api.py</code>, FastAPI + uvicorn):</p>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST /predict</code></td>
+<td>13 validated features (Pydantic ranges per UCI coding) → prediction, label, confidence, <code>probability_heart_disease</code>, disclaimer</td>
+</tr>
+<tr>
+<td><code>GET /health</code></td>
+<td>Liveness/readiness payload incl. <code>model_available</code></td>
+</tr>
+<tr>
+<td><code>GET /metrics</code></td>
+<td>Prometheus exposition (Section 10)</td>
+</tr>
+<tr>
+<td><code>GET /docs</code></td>
+<td>OpenAPI UI</td>
+</tr>
+<tr>
+<td><code>GET /</code></td>
+<td>Service index linking the above</td>
+</tr>
+</tbody>
+</table>
+<p>Every prediction also emits one structured JSON log line (request-scoped, includes client, prediction, and duration in ms) and increments Prometheus counters/histograms.</p>
+<p><strong>Real executed exchange</strong> (Docker container, 2026-10-20; verbatim from <code>run_logs/api_health.json</code> and <code>run_logs/api_predict.json</code>):</p>
+<p>Request — <code>GET /health</code>:</p>
+<pre><code class="language-json">{&quot;status&quot;:&quot;ok&quot;,&quot;model_available&quot;:true}
+</code></pre>
+<p>Request — <code>POST /predict</code> with body:</p>
+<pre><code class="language-json">{&quot;age&quot;:55,&quot;sex&quot;:1,&quot;cp&quot;:2,&quot;trestbps&quot;:130,&quot;chol&quot;:240,&quot;fbs&quot;:0,&quot;restecg&quot;:1,
+ &quot;thalach&quot;:150,&quot;exang&quot;:0,&quot;oldpeak&quot;:1.2,&quot;slope&quot;:2,&quot;ca&quot;:0,&quot;thal&quot;:3}
+</code></pre>
+<p>Response — HTTP 200:</p>
+<pre><code class="language-json">{&quot;prediction&quot;:0,&quot;label&quot;:&quot;heart_disease_not_indicated&quot;,&quot;confidence&quot;:0.672567,
+ &quot;probability_heart_disease&quot;:0.327433,
+ &quot;disclaimer&quot;:&quot;Educational output only; not a medical diagnosis.&quot;}
+</code></pre>
+<p>The matching server-side log line in <code>run_logs/docker_container.log</code>:
+<code>{"event": "prediction", "status": "success", "client": "172.17.0.1", "prediction": 0, "duration_ms": 735.23}</code></p>
+<p><strong>Dockerfile approach:</strong> <code>python:3.11-slim</code> base; requirements installed before source copy for layer caching; bakes in <code>src/</code>, the trained <code>models/</code>, and <code>reports/artifacts/</code>; built-in <code>HEALTHCHECK</code> curling <code>/health</code>; <code>EXPOSE 8000</code>; uvicorn entrypoint. <code>docker-compose.yml</code> mirrors the same service for one-command local runs.</p>
+<p><strong>Port-8000 note (honest):</strong> the host&rsquo;s port 8000 was already occupied by an unrelated long-running development service, documented in <code>run_logs/port8000_conflict.log</code>. Rather than killing that service, all container verification used the host&rsquo;s LAN interface — <code>http://192.168.0.9:8000</code> — which reaches the published container port directly; the <code>/health</code>, <code>/predict</code>, and <code>/metrics</code> evidence above (and <code>screenshots/06_api_health.png</code>, <code>07_api_predict.png</code>, <code>09_prometheus_metrics.png</code>) was captured through that address.</p>
+<hr />
+<h2>9. Deployment (Kubernetes)</h2>
+<p><strong>Manifest design</strong> (<code>deployment/kubernetes/</code> — namespace, deployment, service, configmap):</p>
+<table>
+<thead>
+<tr>
+<th>Object</th>
+<th>Settings</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Namespace</code></td>
+<td><code>heart-disease</code></td>
+</tr>
+<tr>
+<td><code>ConfigMap</code></td>
+<td><code>LOG_LEVEL=INFO</code>, <code>HOST</code>/<code>PORT</code>, <code>PYTHONUNBUFFERED=1</code>, wired via <code>envFrom</code></td>
+</tr>
+<tr>
+<td><code>Deployment</code></td>
+<td><code>heart-disease-api</code>, <strong>2 replicas</strong>, <code>imagePullPolicy: IfNotPresent</code>, container port 8000</td>
+</tr>
+<tr>
+<td>Probes</td>
+<td><strong>readiness</strong> <code>/health</code> (10 s initial, 10 s period); <strong>liveness</strong> <code>/health</code> (20 s initial, 20 s period)</td>
+</tr>
+<tr>
+<td>Resources</td>
+<td>requests 100 m CPU / 256 Mi; limits 500 m CPU / 512 Mi</td>
+</tr>
+<tr>
+<td><code>Service</code></td>
+<td>type <strong>LoadBalancer</strong>, port 80 → targetPort 8000, app selector</td>
+</tr>
+</tbody>
+</table>
+<p>(Cloud-cluster adaptations — registry push, image reference, ingress — are documented in <code>deployment/cloud/README.md</code>.)</p>
+<p><strong>Minikube procedure</strong> (executed 2026-10-20; see the status paragraph below):</p>
+<pre><code class="language-bash">python -m src.heart_disease.train   # model artifact must exist before the image build
+docker build -t heart-disease-api:latest .
+minikube start --driver=docker
+minikube image load heart-disease-api:latest
+kubectl apply -f deployment/kubernetes/
+kubectl -n heart-disease rollout status deployment/heart-disease-api
+kubectl -n heart-disease get pods,svc
+kubectl -n heart-disease port-forward svc/heart-disease-api 8080:80
+</code></pre>
+<p>On local minikube the LoadBalancer IP can stay <code>&lt;pending&gt;</code>; access is via <code>minikube service</code> or <code>kubectl port-forward svc/heart-disease-api 8080:80</code>.</p>
+<p><strong>STATUS: deployed and verified (2026-10-20).</strong> <code>minikube start --driver=docker</code> (minikube v1.39.0, Kubernetes v1.37.0), image loaded via <code>minikube image load</code>, <code>kubectl apply -f deployment/kubernetes/</code>, rollout completed 2/2 — pods <code>heart-disease-api-65cc759df8-9ptbt</code> and <code>heart-disease-api-65cc759df8-m2l9p</code> both <code>1/1 Running</code>. Verified in-cluster through <code>kubectl port-forward svc/heart-disease-api 8080:80</code>: <code>GET /health</code> → HTTP 200 <code>{"status":"ok","model_available":true}</code>, <code>POST /predict</code> → HTTP 200 with the documented response shape and values. Evidence: <code>run_logs/minikube_start.log</code>, <code>run_logs/kubectl_apply.log</code>, <code>run_logs/kubectl_rollout.log</code>, <code>run_logs/kubectl_get.log</code>, <code>run_logs/k8s_api_health.log</code>, <code>run_logs/k8s_api_predict.log</code>, <code>screenshots/08_kubernetes.png</code>. The LoadBalancer external IP stays <code>&lt;pending&gt;</code> on the docker driver and the NodePort is not routable from the macOS host, so port-forward is the documented local verification path.</p>
+<hr />
+<h2>10. Monitoring &amp; Logging</h2>
+<p><strong>Prometheus metrics</strong> — real, exported by <code>src/api.py</code> at <code>/metrics</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>prediction_requests_total</code></td>
+<td>Counter</td>
+<td>Cumulative predictions by outcome, labelled <code>status</code> = <code>success</code> or <code>error</code></td>
+</tr>
+<tr>
+<td><code>prediction_request_duration_seconds</code></td>
+<td>Histogram</td>
+<td>End-to-end latency per request</td>
+</tr>
+</tbody>
+</table>
+<p>Scrape configuration (<code>monitoring/prometheus.yml</code>): job <code>heart-disease-api</code>, <code>metrics_path: /metrics</code>, target <code>heart-disease-api:8000</code>, <code>scrape_interval: 15s</code>. Captured exposition evidence: <code>screenshots/09_prometheus_metrics.png</code> and <code>run_logs/api_metrics.log</code>.</p>
+<p><strong>Alert rules (proposed, not yet bundled as a rules file):</strong> <code>prediction_requests_total{status="error"}</code> increasing over 5 min → error-rate alert; <code>prediction_request_duration_seconds</code> p95 above ~1 s for 10 min → latency alert; absent <code>/metrics</code> scrape (up == 0) for 5 min → service-down alert. These are recommendations in this report, marked as such — <code>alert-rules.yaml</code> does not exist in the repository yet.</p>
+<p><strong>Grafana:</strong> dashboard consumption of the Prometheus datasource is the documented pattern (<code>monitoring/README.md</code>); request-rate, latency-bucket, and error-ratio panels are the intended first three panels. No Grafana screenshot is claimed yet.</p>
+<p><strong>Logging:</strong> the API configures structured logging at startup (<code>LOG_LEVEL</code> env override) and writes one JSON line per prediction — event, status, client, prediction, duration — visible in <code>run_logs/docker_container.log</code>. Under Docker/Kubernetes these stdout/stderr lines are collected by the standard container log drivers (<code>docker logs</code>, <code>kubectl logs</code>).</p>
+<hr />
+<h2>11. Architecture</h2>
+<p><img alt="End-to-end MLOps architecture" src="architecture/architecture.png" /></p>
+<p><em>Figure 6 — End-to-end architecture: data (UCI → download/validate → cleaned CSV → EDA), modeling (leakage-safe pipeline → two candidates → GridSearchCV 5-fold ROC-AUC → evaluation → joblib artifact), serving (FastAPI → Docker → Kubernetes), and operations (GitHub Actions CI feeding the pipeline; Prometheus scraping <code>/metrics</code> into Grafana; MLflow receiving every training run). The diagram is generated from source by <code>architecture/generate_architecture.py</code>.</em></p>
+<hr />
+<h2>12. Limitations &amp; Responsible Use</h2>
+<ul>
+<li><strong>Not a medical device.</strong> Outputs are educational only; the disclaimer is embedded in every API response and in the OpenAPI description.</li>
+<li><strong>Small, historical cohort.</strong> 303 rows from the 1980s-era Cleveland subset; not representative of modern or diverse populations (recorded in the model card&rsquo;s <code>limitations</code>).</li>
+<li><strong>Selection-on-test caveat</strong> from Section 4: a single 61-row holdout also served the family decision; treat point metrics as optimistic by a small margin.</li>
+<li><strong>Class imbalance is mild but real</strong> (139/164); recall is favored by <code>class_weight="balanced"</code>, and precision (0.8387) is the metric to watch if false positives carry cost.</li>
+<li><strong>No drift monitoring yet.</strong> Metrics cover service health, not data/concept drift; a production system would add input-distribution logging.</li>
+<li><strong>Single-node tracking stack.</strong> SQLite MLflow and static Prometheus targets suit the assignment, not scale.</li>
+</ul>
+<hr />
+<h2>13. How to Run</h2>
+<pre><code class="language-bash"># Environment
+python -m venv .venv &amp;&amp; source .venv/bin/activate
+python -m pip install -r requirements.txt
+
+# Data + EDA
+python scripts/download_data.py    # download + schema validation (idempotent)
+make eda                           # figures + eda_summary.json
+
+# Training + tracking (writes comparison.json, training_summary.json, model_card.json, joblib)
+python -m src.heart_disease.train  # or the whole flow: python scripts/run_pipeline.py
+
+# Tests &amp; lint
+pytest                             # 40 tests
+ruff check src tests scripts
+
+# MLflow UI
+mlflow ui --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns   # add --port 5001 if 5000 is taken
+
+# Local API
+uvicorn src.heart_disease.api:app --host 127.0.0.1 --port 8000   # or: docker compose up
+
+# Docker
+docker build -t heart-disease-api:latest .
+docker run --rm -p 8000:8000 heart-disease-api:latest
+
+# Kubernetes (minikube) — see Section 9
+minikube start --driver=docker &amp;&amp; minikube image load heart-disease-api:latest
+kubectl apply -f deployment/kubernetes/
+kubectl -n heart-disease rollout status deployment/heart-disease-api
+kubectl -n heart-disease get pods,svc
+
+# Monitoring stack
+docker compose up -d prometheus grafana   # Prometheus :9090, Grafana :3000 (dashboard auto-provisioned)
+
+# Report figures
+python reports/architecture/generate_architecture.py
+</code></pre>
+<p><code>Makefile</code> shortcuts: <code>make setup data eda train test lint report api docker-build docker-run deploy validate package clean</code>.</p>
+<hr />
+<h2>14. References</h2>
+<ol>
+<li>Janosi, A., Steinbrunn, W., Pfisterer, M., &amp; Detrano, R. <em>Heart Disease Data Set.</em> UCI Machine Learning Repository. DOI: <a href="https://doi.org/10.24432/C52P4X">10.24432/C52P4X</a></li>
+<li>Pedregosa, F., et al. (2011). <em>Scikit-learn: Machine Learning in Python.</em> JMLR 12, 2825–2830. — <a href="https://scikit-learn.org/stable/">scikit-learn.org</a> (Pipelines, ColumnTransformer, GridSearchCV, model evaluation)</li>
+<li>MLflow Documentation — <a href="https://mlflow.org/docs/latest/index.html">mlflow.org/docs</a> (tracking, sklearn flavor, backend stores)</li>
+<li>FastAPI Documentation — <a href="https://fastapi.tiangolo.com/">fastapi.tiangolo.com</a> (path operations, Pydantic validation, TestClient)</li>
+<li>Docker Documentation — <a href="https://docs.docker.com/">docs.docker.com</a> (Dockerfile best practices, HEALTHCHECK)</li>
+<li>Kubernetes Documentation — <a href="https://kubernetes.io/docs/home/">kubernetes.io/docs</a> (Deployments, Services, probes)</li>
+<li>Prometheus Documentation — <a href="https://prometheus.io/docs/introduction/overview/">prometheus.io/docs</a> (instrumenting Python apps, scrape configs)</li>
+<li>Grafana Documentation — <a href="https://grafana.com/docs/">grafana.com/docs</a></li>
+<li>GitHub Actions Documentation — <a href="https://docs.github.com/en/actions">docs.github.com/actions</a></li>
+</ol>
+<hr />
+<h2>Repository URL</h2>
+<p><strong>https://github.com/kteja-av/mlops-heart-disease</strong> (private repository; implementation commit <code>eafc833</code>, evidence commit <code>b94eab9</code>).</p>
+<hr />
+<p><em>Report generated 2026-10-20. Companion data: <a href="results_summary.json"><code>results_summary.json</code></a>. Requirement-to-evidence mapping is tracked in <code>STATUS.md</code> and the <code>status_markers</code> block of the JSON summary.</em></p></body></html>

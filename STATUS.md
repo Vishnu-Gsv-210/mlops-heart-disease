@@ -8,6 +8,8 @@ This checklist maps every assignment requirement to its current, honest state
 and the concrete evidence for it. Nothing is marked DONE without a real local
 artifact or command result; PENDING items are disclosed, not hidden.
 
+**Repository:** https://github.com/kteja-av/mlops-heart-disease (private)
+
 ## Section status
 
 | Requirement | Max marks* | Status | Evidence (path / command) |
@@ -18,11 +20,11 @@ artifact or command result; PENDING items are disclosed, not hidden.
 | 4. Experiment tracking (MLflow: params, metrics, artifacts) | 5 | DONE | sqlite backend `mlflow.db`, 7 runs recorded including 2 honest failed runs; `.venv/bin/mlflow ui --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns` |
 | 5. Packaging & reproducibility (seeded, joblib serialization, requirements) | 5 | DONE | `models/heart_disease_pipeline.joblib`, `requirements.txt`, `pyproject.toml`, `make package` -> `heart_disease_project.zip` |
 | 6. Automated tests + lint | 5 | DONE | 40 tests passing (`make test`), `ruff check src tests scripts` clean (`make lint`), `pytest.ini` |
-| 7. CI/CD (GitHub Actions workflow) | 5 | DONE (config) / cloud run PENDING | `.github/workflows/` committed; a successful run in the student's own GitHub repo is still pending push |
+| 7. CI/CD (GitHub Actions workflow) | 5 | DONE | run 39448863315 **PASSED** (2m23s, all steps green incl. Docker build + artifact upload): https://github.com/kteja-av/mlops-heart-disease/actions/runs/39448863315; `run_logs/github_actions_run.log`, `screenshots/11_github_actions.png` |
 | 8. Docker image + FastAPI service | 4 | DONE | `Dockerfile`, `docker-compose.yml`; verified via LAN IP http://192.168.0.9:8000/health and /predict (note: `localhost:8000` is occupied on this machine by an unrelated local service, so localhost evidence shows a conflict, not the API) |
 | 9. Kubernetes deployment (local cluster) | 4 | DONE | minikube v1.39.0 (docker driver, K8s v1.37.0): rollout 2/2 pods `1/1 Running`; in-cluster `/health` + `/predict` verified via port-forward; `run_logs/kubectl_{apply,rollout,get}.log`, `run_logs/k8s_api_{health,predict}.log`, `screenshots/08_kubernetes.png` |
 | Production readiness: API validation, logging, monitoring configs | 4 | DONE | live stack verified: Prometheus v2.53 scrapes `heart-disease-api` target UP with real `prediction_requests_total` growth; Grafana v11.1 dashboard `heart-disease-api` live with provisioned datasource; `screenshots/10_grafana.png`, `screenshots/09b_prometheus_targets.png`, `run_logs/prometheus_targets.log`, `run_logs/grafana_api.log`; 4 alert rules in `monitoring/alert_rules.yml` |
-| Deliverables: report, video, screenshots, GitHub push | 2 | PENDING | see below |
+| Deliverables: report, video, screenshots, GitHub push | 2 | DONE | `reports/final_report.md` + `reports/final_report.pdf` (16 pp, exported via `scripts/export_report_pdf.py`), `report_generated.pdf`, `demo/demo.mp4`, `screenshots/01-11`, repository pushed (see header) |
 
 \* Marks split is this student's reading of the assignment brief's section
 weights (total 50); check against the official rubric.
@@ -42,14 +44,15 @@ weights (total 50); check against the official rubric.
 | `screenshots/09_prometheus_metrics.png` | /metrics output | DONE |
 | `screenshots/09b_prometheus_targets.png` | Prometheus /targets page, both targets UP (bonus) | DONE |
 | `screenshots/10_grafana.png` | Grafana dashboard live | DONE |
-| `screenshots/11_github_actions.png` | own-repo CI run green | PENDING |
+| `screenshots/11_github_actions.png` | own-repo CI run green | DONE |
 
 ## Deliverables outstanding
 
-- `screenshots/11_github_actions.png` (captured right after the first real CI run on the pushed repo)
-- Final report PDF regenerate (`python scripts/generate_report.py`) + `reports/final_report.pdf` export once CI evidence lands
-- Demo video assembly (see `demo/recording_guide.md`)
-- Push to the student's GitHub repository (in progress)
+None blocking (as of 2026-10-20, 21:10 local). All 11 evidence screenshots, both
+report PDFs, the executed notebook, the green CI runs (39448863315, 39449366941),
+the minikube rollout, and the live monitoring stack are captured. Remaining
+captain-side actions are personal: review the report, record any additional
+walkthrough video if the course requires a narrated one, and submit.
 
 ## Known local-environment notes
 

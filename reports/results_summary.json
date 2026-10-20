@@ -111,15 +111,31 @@
   },
   "testing": {
     "pytest": {
-      "result": "3 passed, 1 warning in 1.28s",
-      "note": "Suite expansion to broader coverage in progress at draft time",
-      "tests": [
-        "tests/test_api.py::test_health_endpoint_shape",
-        "tests/test_api.py::test_root_has_docs_link",
-        "tests/test_data_processing.py::test_preprocessor_handles_missing_values_and_unknown_categories"
+      "result": "40 passed, 2 warnings in ~2s",
+      "log": "run_logs/pytest_v2.log",
+      "suite": {
+        "tests/test_data.py": 10,
+        "tests/test_preprocessing.py": 5,
+        "tests/test_model.py": 10,
+        "tests/test_api.py": 10,
+        "tests/test_monitoring.py": 5,
+        "conftest.py": "shared fixtures"
+      },
+      "coverage": [
+        "dataset loading",
+        "schema validation",
+        "missing-value handling",
+        "preprocessing transforms",
+        "feature ordering",
+        "training",
+        "prediction outputs",
+        "confidence/probability invariants",
+        "serialization round-trip",
+        "API schema validation + 422/503",
+        "prometheus metric registration/increment"
       ]
     },
-    "ruff": "All checks passed!"
+    "ruff": "All checks passed! (src tests scripts)"
   },
   "environment": {
     "python": "3.11.16",
@@ -146,46 +162,76 @@
       "path": "screenshots/01_eda.png",
       "bytes": 743792,
       "sha256": "6c9744238e2f3f0176193eec82ee9f9ffcce68d94d8f5ec24a00f3778eda644c",
-      "shows": "EDA execution output: dataset summary JSON (303 rows, 139/164 class split, ca=4 / thal=2 missing, 0 duplicates)"
+      "shows": "EDA execution output: dataset summary (303 rows, 139/164 class split, ca=4/thal=2 missing, 0 duplicates) + figure montage"
     },
     {
       "path": "screenshots/02_mlflow.png",
       "bytes": 202963,
       "sha256": "f59e7367171fbbd2d69bfd10585e277f40c0eec92c7396f88bb3209ef330c70e",
-      "shows": "MLflow UI experiment view with both model runs (logistic_regression, random_forest) and their logged metrics"
+      "shows": "MLflow UI: experiment heart-disease-classification, both model runs with logged metrics"
     },
     {
       "path": "screenshots/03_tests.png",
-      "bytes": 53372,
-      "sha256": "7dfaadd41c3fe1b69c509b18b62325ca3c453ffc2aabcaee0589681efe5a86af",
-      "shows": "pytest run: 3 passed"
+      "bytes": 81422,
+      "sha256": "482c621266dd9fd98b6d33b750bc84794c3381f7028999ec28229c4d87e1a9c6",
+      "shows": "pytest -v run: 40 passed in ~2s"
     },
     {
       "path": "screenshots/04_lint.png",
       "bytes": 7250,
       "sha256": "0b825b5957d282684308ee469d6a86cb1b02fa764b7a3872d9253c05645e1240",
-      "shows": "ruff check output: all checks passed"
+      "shows": "ruff check src tests scripts: All checks passed!"
+    },
+    {
+      "path": "screenshots/05_docker_build.png",
+      "bytes": 140061,
+      "sha256": "17a6a730e400c116d1a6a19207d573a1c5d134eb2e7a5f8b98a11613cd80f773",
+      "shows": "docker build -t heart-disease-api:latest success + docker images output"
     },
     {
       "path": "screenshots/06_api_health.png",
       "bytes": 11233,
       "sha256": "f1fac73e499312b76e44771d3fe2337c79ffd4dbe2d86fb132937f0b32e5ac0f",
-      "shows": "Dockerized API GET /health response: {\"status\":\"ok\",\"model_available\":true}"
+      "shows": "Dockerized API GET /health: {\"status\":\"ok\",\"model_available\":true}"
     },
     {
       "path": "screenshots/07_api_predict.png",
       "bytes": 241931,
       "sha256": "b456d0870400f2022cd133bbf3707d31fec8ea20eccb21b8f5c219c4b4100953",
-      "shows": "Dockerized API POST /predict request and JSON response with disclaimer"
+      "shows": "FastAPI /docs UI + real POST /predict exchange with disclaimer"
+    },
+    {
+      "path": "screenshots/08_kubernetes.png",
+      "bytes": 153894,
+      "sha256": "7bf40f747cd8a7857806d2ea54ca4ddec6102bf2dc1066a08e174b9f61e0b5b4",
+      "shows": "minikube status, kubectl get pods,svc (2/2 Running), rollout success, in-cluster /health"
     },
     {
       "path": "screenshots/09_prometheus_metrics.png",
       "bytes": 276364,
       "sha256": "127eecbe343600bef63874298deac2bccfab663a2340af4331cf1b77d5d99f56",
-      "shows": "GET /metrics exposition: prediction_requests_total counter and prediction_request_duration_seconds histogram"
+      "shows": "GET /metrics exposition: prediction_requests_total + prediction_request_duration_seconds"
+    },
+    {
+      "path": "screenshots/09b_prometheus_targets.png",
+      "bytes": 85240,
+      "sha256": "fe1f3442a0fef3ec8b26c9bfecc7cd497bfc7d18bc522d4f13b0588608e34962",
+      "shows": "Prometheus /targets page: heart-disease-api and prometheus targets UP"
+    },
+    {
+      "path": "screenshots/10_grafana.png",
+      "bytes": 116575,
+      "sha256": "137b85f41aeec4fd75024a4acaaf19cf9b21c8ef0ffa5e2cd096af935937c755",
+      "shows": "Live Grafana dashboard 'Heart Disease API' (provisioned datasource, real panels)"
+    },
+    {
+      "path": "screenshots/11_github_actions.png",
+      "bytes": 146809,
+      "sha256": "0503ccc67b42048d420b7bc155fcea104f955b0d72c124fd660fd937d08915f4",
+      "shows": "gh run view: run 39448863315 green, all steps passed"
     }
   ],
-  "evidence_inventory_note": "Numbering gaps 05 (GitHub Actions cloud run) and 08 (Kubernetes rollout) are intentional: those captures are pending and are listed in status_markers; SUBMISSION_STATUS.md forbids fabricated screenshots.",
+  "evidence_inventory_note": "All 11 required evidence captures present (plus bonus 09b); every PNG derives from real local execution on 2026-10-20.",
   "artifact_paths": {
     "architecture_diagram": "reports/architecture/architecture.png",
     "architecture_generator": "reports/architecture/generate_architecture.py",
@@ -207,16 +253,97 @@
     "run_logs": "run_logs/*.log (pytest, ruff, train, eda, docker build/run/container, api health/predict/metrics, port8000 conflict)",
     "cleaned_data": "data/processed/heart_disease_cleaned.csv",
     "raw_data": "data/raw/processed.cleveland.data",
-    "ci_workflow": ".github/workflows/ci-cd.yaml",
-    "k8s_manifests": "deployment/deployment.yaml",
-    "prometheus_config": "monitoring/prometheus.yml"
+    "ci_workflow": ".github/workflows/ci-cd.yml",
+    "k8s_manifests": "deployment/kubernetes/{namespace,deployment,service,configmap}.yaml",
+    "prometheus_config": "monitoring/prometheus.yml",
+    "eda_notebook": "notebooks/eda.ipynb (executed, outputs embedded)",
+    "final_report_md": "reports/final_report.md",
+    "final_report_pdf": "reports/final_report.pdf",
+    "pdf_exporter": "scripts/export_report_pdf.py"
   },
   "status_markers": {
-    "github_actions_cloud_run": "PENDING - workflow configured (.github/workflows/ci-cd.yaml) but no cloud run executed yet; see SUBMISSION_STATUS.md",
-    "kubernetes_rollout": "IN PROGRESS at draft time (2026-10-20) - Deployment/Service manifests written (deployment/deployment.yaml, 2 replicas, LoadBalancer), minikube rollout evidence not yet captured",
-    "repository_url": "To be filled after GitHub push",
-    "test_suite_expansion": "IN PROGRESS - 3 tests passing at draft time, larger suite planned"
+    "github_actions_cloud_run": "DONE - run 39448863315 conclusion success (2026-10-20)",
+    "kubernetes_rollout": "DONE - 2/2 pods Running, in-cluster endpoints verified (2026-10-20)",
+    "repository_url": "https://github.com/kteja-av/mlops-heart-disease (private)",
+    "test_suite_expansion": "DONE - 40/40 passing",
+    "notebook": "DONE - executed with embedded outputs and observed numbers",
+    "monitoring_stack": "DONE - Prometheus scraping live API, Grafana dashboard live"
   },
-  "generated_at": "2026-10-20T14:37:24Z",
-  "generator": "reports/final_report.md companion machine-readable summary; every metric traceable to reports/artifacts/*.json"
+  "generated_at": "2026-10-20T15:35:41Z",
+  "generator": "reports/final_report.md companion machine-readable summary; every metric traceable to reports/artifacts/*.json",
+  "deployment_evidence": {
+    "executed": "2026-10-20",
+    "platform": "minikube v1.39.0 (docker driver), Kubernetes v1.37.0",
+    "namespace": "heart-disease",
+    "rollout": "deployment/heart-disease-api successfully rolled out, 2/2 pods 1/1 Running",
+    "in_cluster_health": {
+      "http": 200,
+      "body": {
+        "status": "ok",
+        "model_available": true
+      }
+    },
+    "in_cluster_predict": {
+      "http": 200,
+      "shape": "documented response shape, values match README"
+    },
+    "service": "LoadBalancer 80->8000 (external IP <pending> on docker driver; verified via kubectl port-forward 8080:80)",
+    "logs": [
+      "run_logs/minikube_start.log",
+      "run_logs/kubectl_apply.log",
+      "run_logs/kubectl_rollout.log",
+      "run_logs/kubectl_get.log",
+      "run_logs/k8s_api_health.log",
+      "run_logs/k8s_api_predict.log"
+    ]
+  },
+  "monitoring_evidence": {
+    "prometheus": {
+      "version": "v2.53.0",
+      "target_health": "up",
+      "real_datapoint": "prediction_requests_total{status=success} incremented 1->6 after live traffic",
+      "alerts": "4 rules loaded from monitoring/alert_rules.yml"
+    },
+    "grafana": {
+      "version": "11.1.0",
+      "dashboard_uid": "heart-disease-api",
+      "datasource": "prometheus (provisioned), query verified",
+      "note": "anonymous-Admin enabled for local demo viewing only"
+    },
+    "logs": [
+      "run_logs/prometheus_targets.log",
+      "run_logs/prometheus_query.log",
+      "run_logs/grafana_api.log"
+    ]
+  },
+  "github_actions": {
+    "repo": "kteja-av/mlops-heart-disease",
+    "run_id": 39448863315,
+    "url": "https://github.com/kteja-av/mlops-heart-disease/actions/runs/39448863315",
+    "conclusion": "success",
+    "started_at": "2026-10-20T15:29:20Z",
+    "updated_at": "2026-10-20T15:31:43Z",
+    "duration_s": 143,
+    "steps_passed": [
+      "Checkout",
+      "Set up Python",
+      "Install dependencies",
+      "Lint",
+      "Download data and validate schema",
+      "Unit tests",
+      "Smoke train",
+      "Build Docker image",
+      "Upload reports, model, and MLflow artifacts"
+    ],
+    "artifact": "mlops-run-artifacts",
+    "log": "run_logs/github_actions_run.log"
+  },
+  "repository": {
+    "url": "https://github.com/kteja-av/mlops-heart-disease",
+    "visibility": "private",
+    "head_commits": [
+      "b94eab9 Add GitHub Actions CI run evidence",
+      "eafc833 Complete MLOps heart disease assignment: pipeline, CI/CD, Docker, Kubernetes, monitoring"
+    ]
+  }
 }
