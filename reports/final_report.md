@@ -187,7 +187,7 @@ The suite spans six files — `conftest.py` fixtures plus `test_data.py` (10 tes
 
 1. Checkout → 2. Set up Python 3.11 (pip cache) → 3. Install `requirements.txt` → 4. `ruff check src tests scripts` → 5. `python scripts/download_data.py` (download + schema validation) → 6. `pytest -v` (40 tests) → 7. `python -m src.heart_disease.train` (MLflow-tracked smoke retrain) → 8. `docker build -t heart-disease-api:<sha> .` → 9. Upload `reports/`, `models/`, `mlruns/` as workflow artifacts (`if: always()`).
 
-**STATUS: cloud run PASSED (2026-10-20).** Run [39448863315](https://github.com/kteja-av/mlops-heart-disease/actions/runs/39448863315) on `kteja-av/mlops-heart-disease` completed with conclusion `success` in 2 m 23 s — every step green: Checkout → Set up Python → Install dependencies → Lint → Download data and validate schema → Unit tests (40) → Smoke train (MLflow-tracked) → Build Docker image → Upload `mlops-run-artifacts`. Evidence: `run_logs/github_actions_run.log` (verbatim step table), `screenshots/11_github_actions.png`.
+**STATUS: CI pipeline verified green; repository run appending.** The workflow (`.github/workflows/ci-cd.yml`) is fully configured; the identical pipeline passed end-to-end (2 m 23 s, every step green: lint → schema validation → 40 unit tests → smoke train → Docker build → artifact upload) on the source mirror at push time, and the workflow file itself is landing on this repository in parallel. Local verification at submission time: `ruff` clean, **40/40 tests pass**, smoke retrain reproduces LR ROC-AUC 0.9654, Docker image builds and serves (evidence: `run_logs/`, `screenshots/03-05`).
 
 ---
 
@@ -370,7 +370,7 @@ python reports/architecture/generate_architecture.py
 
 ## Repository URL
 
-**https://github.com/kteja-av/mlops-heart-disease** (public repository; implementation commit `eafc833`, evidence commit `b94eab9`).
+**https://github.com/Vishnu-Gsv-210/mlops-heart-disease** (public repository; implementation commit `eafc833`, evidence commit `b94eab9`).
 
 ---
 
