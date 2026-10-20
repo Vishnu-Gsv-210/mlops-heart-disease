@@ -340,7 +340,7 @@
   },
   "repository": {
     "url": "https://github.com/kteja-av/mlops-heart-disease",
-    "visibility": "private",
+    "visibility": "public",
     "head_commits": [
       "b94eab9 Add GitHub Actions CI run evidence",
       "eafc833 Complete MLOps heart disease assignment: pipeline, CI/CD, Docker, Kubernetes, monitoring"

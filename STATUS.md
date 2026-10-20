@@ -8,7 +8,7 @@ This checklist maps every assignment requirement to its current, honest state
 and the concrete evidence for it. Nothing is marked DONE without a real local
 artifact or command result; PENDING items are disclosed, not hidden.
 
-**Repository:** https://github.com/kteja-av/mlops-heart-disease (private)
+**Repository:** https://github.com/kteja-av/mlops-heart-disease (public)
 
 ## Section status
 

@@ -370,7 +370,7 @@ python reports/architecture/generate_architecture.py
 
 ## Repository URL
 
-**https://github.com/kteja-av/mlops-heart-disease** (private repository; implementation commit `eafc833`, evidence commit `b94eab9`).
+**https://github.com/kteja-av/mlops-heart-disease** (public repository; implementation commit `eafc833`, evidence commit `b94eab9`).
 
 ---
 
