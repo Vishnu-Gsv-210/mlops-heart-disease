@@ -5,7 +5,6 @@ report so relative image paths resolve) -> headless Chrome print-to-pdf.
 
 Run from repository root: python scripts/export_report_pdf.py
 """
-import sys
 from pathlib import Path
 
 import markdown
